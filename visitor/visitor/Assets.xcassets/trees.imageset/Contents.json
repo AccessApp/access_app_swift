@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "map-marker.png",
+      "filename" : "trees.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "map-marker@2x.png",
+      "filename" : "trees@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -1,16 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "map-marker.png",
+      "filename" : "AccessApp logo x2.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "map-marker@2x.png",
+      "filename" : "AccessApp logo x2-1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "AccessApp logo x2-2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
@@ -18,8 +19,5 @@
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "template-rendering-intent" : "template"
   }
 }

@@ -99,6 +99,8 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     let defaultSession = URLSession(configuration: .default)
     var places: [Place]? = [Place]()
     @IBOutlet var tableView: UITableView!
+    @IBOutlet var placeInfo: UIImageView!
+    @IBOutlet var globe: UIImageView!
     
     @IBOutlet weak var containerView: UIView! {
         didSet {
@@ -135,12 +137,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         }
     }
     
-    @IBOutlet weak var placeImage: UIImageView! {
-        didSet {
-            placeImage.layer.cornerRadius = 5
-            placeImage.clipsToBounds = true
-        }
-    }
+    @IBOutlet weak var placeImage: UIImageView!
     
     
     @objc func tapFunction(_ sender: UITapGestureRecognizer) {
@@ -153,6 +150,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setupCustomNavBar()
+        getSlots()
     }
     
     override func viewDidLoad() {
@@ -168,8 +166,6 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
 //        arrayJson = Array(arrayLiteral: (schedule?.slots.innerArray)!)
 //        print(arrayJson[0].values)
 //        self.tableView.reloadData()
-        
-        getSlots()
 
     }
     
@@ -188,9 +184,18 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(named: "profile"), for: .normal)
         btn2.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        //        btn2.addTarget(self, action: #selector(Class.MethodName), for: .touchUpInside)
+        btn2.addTarget(self, action: #selector(openProfile(_:)), for: .touchUpInside)
         let item2 = UIBarButtonItem(customView: btn2)
         self.navigationItem.rightBarButtonItem = item2
+        
+        let fontAttributes = [NSAttributedString.Key.font: UIFont(name: "Rubik-Regular", size: 12.0)!]
+        UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
+
+    }
+    
+    @objc func openProfile(_ sender: UIBarButtonItem) {
+        let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileController") as UIViewController
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func setupPlaceCard() {
@@ -198,8 +203,21 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
             titleLabel.text = place.name
             desc.text = place.placeDescription
             website.text = place.www
+            if place.www.isEmpty {
+                globe.isHidden = true
+            } else {
+                globe.isHidden = false
+            }
             placeImage.downloaded(from: BASE_URL + "/api/image/\(place.id)")
         }
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
+        placeInfo.isUserInteractionEnabled = true
+        placeInfo.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
+        let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "placeInfoVC") as UIViewController
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -258,9 +276,12 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         let index = arrayJson[0].index(arrayJson[0].startIndex, offsetBy: indexPath.section)
         let s = arrayJson[0].keys[index]
         vc.slot = arrayJson[0][s]![indexPath.row]
+        vc.onDoneBlock = { result in
+            self.getSlots()
+        }
         self.navigationController?.present(vc, animated: true, completion: nil)
     }
-
+    
     func getSlots() {
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")/\(self.place?.id ?? "placeId")")!

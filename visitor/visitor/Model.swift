@@ -24,7 +24,7 @@ struct Place: Codable {
     let id, name, type, placeDescription: String
     let www: String
     let address, location: String
-    let isFavourite, approved: Bool
+    var isFavourite, approved: Bool
     
     enum CodingKeys: String, CodingKey {
         case id, name, type
@@ -141,7 +141,7 @@ public struct Slots: Codable {
     public var innerArray: [String: [Slot]]
     
     public struct Slot: Codable {
-        public  let id: String
+        public let id: String
         public let type: String
         public let from: String
         public let to: String
@@ -167,6 +167,46 @@ public struct Slots: Codable {
         self.innerArray = [String: [Slot]]()
         for key in container.allKeys {
             let value = try container.decode([Slot].self, forKey: CustomCodingKeys(stringValue: key.stringValue)!)
+            self.innerArray[key.stringValue] = value
+        }
+    }
+}
+
+public struct VisitResponse: Codable {
+    public let visits: Visits
+}
+
+public struct Visits: Codable {
+    public var innerArray: [String: [Visit]]
+    
+    public struct Visit: Codable {
+        public let slotId: String
+        public let placeId: String
+        public let type: String
+        public let name: String
+        public let startTime: String
+        public let endTime: String
+        public let occupiedSlots: Int
+        public let maxSlots: Int
+        public let visitors: Int
+    }
+    
+    private struct CustomCodingKeys: CodingKey {
+        var stringValue: String
+        init?(stringValue: String) {
+            self.stringValue = stringValue
+        }
+        var intValue: Int?
+        init?(intValue: Int) {
+            return nil
+        }
+    }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CustomCodingKeys.self)
+        
+        self.innerArray = [String: [Visit]]()
+        for key in container.allKeys {
+            let value = try container.decode([Visit].self, forKey: CustomCodingKeys(stringValue: key.stringValue)!)
             self.innerArray[key.stringValue] = value
         }
     }

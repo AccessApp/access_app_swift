@@ -10,6 +10,8 @@
 		2B032DAA24BE6138007BC8AA /* PlanVisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B032DA924BE6138007BC8AA /* PlanVisitCell.swift */; };
 		2B032DAC24BF2943007BC8AA /* PlanVisitHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B032DAB24BF2943007BC8AA /* PlanVisitHeaderCell.swift */; };
 		2B032DAE24C0A424007BC8AA /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B032DAD24C0A424007BC8AA /* PopupViewController.swift */; };
+		2B3BC16E24C5B286004DF5AD /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */; };
+		2B3BC17424C5DBEA004DF5AD /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */; };
 		2B46799A24BBB99D00C995E5 /* jwt-key.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799924BBB99D00C995E5 /* jwt-key.txt */; };
 		2B46799C24BC491B00C995E5 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B46799B24BC491B00C995E5 /* Model.swift */; };
 		2B46799D24BC554200C995E5 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799624BBB34E00C995E5 /* Rubik-Bold.ttf */; };
@@ -68,6 +70,8 @@
 		2B032DA924BE6138007BC8AA /* PlanVisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitCell.swift; sourceTree = "<group>"; };
 		2B032DAB24BF2943007BC8AA /* PlanVisitHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitHeaderCell.swift; sourceTree = "<group>"; };
 		2B032DAD24C0A424007BC8AA /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
+		2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
+		2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 		2B46799624BBB34E00C995E5 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		2B46799724BBB34E00C995E5 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		2B46799824BBB34E00C995E5 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
@@ -167,8 +171,10 @@
 				2B46799B24BC491B00C995E5 /* Model.swift */,
 				2B032DAD24C0A424007BC8AA /* PopupViewController.swift */,
 				2B032DA924BE6138007BC8AA /* PlanVisitCell.swift */,
+				2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */,
 				2B032DAB24BF2943007BC8AA /* PlanVisitHeaderCell.swift */,
 				2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */,
+				2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */,
 				2B488B8324B4CCFC004C3630 /* Main.storyboard */,
 				2B488B8624B4CD03004C3630 /* Assets.xcassets */,
 				2B488B8824B4CD03004C3630 /* LaunchScreen.storyboard */,
@@ -410,10 +416,12 @@
 			files = (
 				2B032DAE24C0A424007BC8AA /* PopupViewController.swift in Sources */,
 				2B46799C24BC491B00C995E5 /* Model.swift in Sources */,
+				2B3BC16E24C5B286004DF5AD /* OnboardViewController.swift in Sources */,
 				2B488BDA24B61CA0004C3630 /* PlacesViewController.swift in Sources */,
 				2B488BDC24B61CB1004C3630 /* PlannerViewController.swift in Sources */,
 				2B488BDE24B61CC1004C3630 /* ScanViewController.swift in Sources */,
 				2B4679A124BC5E8A00C995E5 /* PlanVisitController.swift in Sources */,
+				2B3BC17424C5DBEA004DF5AD /* VisitCell.swift in Sources */,
 				2B032DAC24BF2943007BC8AA /* PlanVisitHeaderCell.swift in Sources */,
 				2B488B7E24B4CCFC004C3630 /* AppDelegate.swift in Sources */,
 				2B032DAA24BE6138007BC8AA /* PlanVisitCell.swift in Sources */,
@@ -593,9 +601,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = visitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -603,6 +612,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.visitor;
 				PRODUCT_NAME = "Access App";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -614,9 +624,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
+				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = visitor/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -624,6 +635,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.visitor;
 				PRODUCT_NAME = "Access App";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

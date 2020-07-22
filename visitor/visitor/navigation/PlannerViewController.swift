@@ -8,7 +8,18 @@
 
 import UIKit
 
-class PlannerViewController: UIViewController {
+class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
+    var arrayJson = Array<[String: [Visits.Visit]]>()
+    var dataTask: URLSessionDataTask?
+    let defaultSession = URLSession(configuration: .default)
+    
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var upcomingVisitsTable: UILabel!
+    @IBOutlet var planVisitBtn: UIButton!
+    @IBOutlet var noPlannedVisits: UILabel!
+    @IBOutlet var noDataImg: UIImageView!
+    @IBOutlet var upcomingVisits: UILabel!
     
     @IBAction func planVisit(_ sender: UIButton) {
         self.tabBarController?.selectedIndex = 0
@@ -18,7 +29,14 @@ class PlannerViewController: UIViewController {
         super.viewDidLoad()
         
         setupCustomNavBar()
-        
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.separatorColor = UIColor.clear
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getAllVisits()
     }
     
     func setupCustomNavBar() {
@@ -56,5 +74,118 @@ class PlannerViewController: UIViewController {
     @objc func openProfile(_ sender: UIBarButtonItem) {
         let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileController") as UIViewController
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func getAllVisits() {
+        let userId = UserDefaults.standard.string(forKey: "userId")
+        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/visits")!
+        var request = URLRequest(url: url.url!)
+        request.httpMethod = "GET"
+        if let token = PlacesViewController.getJwtToken() {
+            let headerValue = "Bearer \(token)"
+            request.setValue(headerValue, forHTTPHeaderField: "Authorization")
+        }
+        
+        dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            if let data = data {
+                
+                let schedule = try? JSONDecoder().decode(VisitResponse.self, from: data)
+                self.arrayJson = Array(arrayLiteral: (schedule?.visits.innerArray)!)
+                print(self.arrayJson[0].values)
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
+            }
+            
+        })
+        
+        dataTask?.resume()
+    }
+    
+    func updateView(isTableHidden: Bool) {
+        upcomingVisits.isHidden = !isTableHidden
+        noDataImg.isHidden = !isTableHidden
+        noPlannedVisits.isHidden = !isTableHidden
+        planVisitBtn.isHidden = !isTableHidden
+        upcomingVisitsTable.isHidden = isTableHidden
+        tableView.isHidden = isTableHidden
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        let index = arrayJson[0].index(arrayJson[0].startIndex, offsetBy: section)
+        let s = arrayJson[0].keys[index]
+        return arrayJson[0][s]!.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "visitCell", for: indexPath) as? VisitCell else {
+            fatalError("No CardTableViewCell for cardCell id")
+        }
+        let index = arrayJson[0].index(arrayJson[0].startIndex, offsetBy: indexPath.section)
+        let s = arrayJson[0].keys[index]
+        cell.visit = arrayJson[0][s]![indexPath.row]
+        return cell
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        let number = !arrayJson.isEmpty ? arrayJson[0].count : 0
+        if number == 0 {
+            self.updateView(isTableHidden: true)
+        } else {
+            self.updateView(isTableHidden: false)
+        }
+        return number
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 55
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as? PlanVisitHeaderCell else {
+            fatalError("No CardTableViewCell for cardCell id")
+        }
+        let index = arrayJson[0].index(arrayJson[0].startIndex, offsetBy: section)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let dateString = arrayJson[0].keys[index]
+        guard let date = dateFormatter.date(from: dateString) else { return nil }
+        let dateFormatter1 = DateFormatter()
+        dateFormatter1.dateFormat = "EEE"
+        let dayInWeek = dateFormatter1.string(from: date)
+        cell.day.text = "\(dayInWeek.uppercased())"
+        
+        let dateFormatter2 = DateFormatter()
+        dateFormatter2.dateFormat = "MMMM"
+        let month = dateFormatter2.string(from: date)
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour], from: date)
+        cell.date.text = "\(components.day ?? 0)\(daySuffix(from: date)) \(month)"
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc = storyboard.instantiateViewController(identifier: "popupVC") as! PopupViewController
+        vc.modalPresentationStyle = .overCurrentContext
+        let index = arrayJson[0].index(arrayJson[0].startIndex, offsetBy: indexPath.section)
+        let s = arrayJson[0].keys[index]
+        vc.visit = arrayJson[0][s]![indexPath.row]
+        vc.onDoneBlock = { result in
+            self.getAllVisits()
+        }
+        self.navigationController?.present(vc, animated: true, completion: nil)
+    }
+    
+    func daySuffix(from date: Date) -> String {
+        let calendar = Calendar.current
+        let dayOfMonth = calendar.component(.day, from: date)
+        switch dayOfMonth {
+        case 1, 21, 31: return "st"
+        case 2, 22: return "nd"
+        case 3, 23: return "rd"
+        default: return "th"
+        }
     }
 }

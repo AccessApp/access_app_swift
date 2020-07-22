@@ -11,6 +11,9 @@ import UIKit
 class ProfileViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var textField: UITextField!
+    @IBAction func saveButton(_ sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

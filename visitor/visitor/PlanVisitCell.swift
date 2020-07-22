@@ -44,7 +44,13 @@ class PlanVisitCell: UITableViewCell {
                     type.backgroundColor = UIColor(named: "primary")
                 } else {
                     type.setTitle("P", for: .normal)
-                    type.backgroundColor = UIColor(named: "green")
+                    if slot.isPlanned {
+                        type.setTitleColor(UIColor(named: "green"), for: .normal)
+                        type.backgroundColor = .white
+                    } else {
+                        type.setTitleColor(.white, for: .normal)
+                        type.backgroundColor = UIColor(named: "green")
+                    }
                 }
                 if slot.isPlanned {
                     contentViewCell.backgroundColor = UIColor(named: "green")

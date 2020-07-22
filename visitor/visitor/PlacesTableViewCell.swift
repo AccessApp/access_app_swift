@@ -13,6 +13,7 @@ class PlacesTableViewCell: UITableViewCell {
     // MARK: - Outlets
     
     var delegate: PlacesCellProtocol!
+    var tableView: UITableView?
     
     @IBOutlet weak var containerView: UIView! {
         didSet {
@@ -42,19 +43,20 @@ class PlacesTableViewCell: UITableViewCell {
         }
     }
     
-    @IBOutlet weak var website: UILabel! {
-        didSet {
-            let tap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction(_:)))
-            website.isUserInteractionEnabled = true
-            website.addGestureRecognizer(tap)
-        }
-    }
+    @IBOutlet weak var website: UILabel!
+    @IBOutlet weak var placeImage: UIImageView!
+    @IBOutlet weak var globe: UIImageView!
+    @IBOutlet var heartIcon: UIImageView!
     
-    @IBOutlet weak var placeImage: UIImageView! {
-        didSet {
-            placeImage.layer.cornerRadius = 5
-            placeImage.clipsToBounds = true
-        }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        let heartTap = UITapGestureRecognizer(target: self, action: #selector(self.heartTapped(_:)))
+        heartIcon.isUserInteractionEnabled = true
+        heartIcon.addGestureRecognizer(heartTap)
+        
+        let websiteTap = UITapGestureRecognizer(target: self, action: #selector(self.tapFunction(_:)))
+        website.isUserInteractionEnabled = true
+        website.addGestureRecognizer(websiteTap)
     }
     
     var place: Place? {
@@ -62,6 +64,18 @@ class PlacesTableViewCell: UITableViewCell {
             if let place = place {
                 titleLabel.text = place.name
                 desc.text = place.placeDescription
+                if place.www.isEmpty {
+                    globe.isHidden = true
+                } else {
+                    globe.isHidden = false
+                }
+                if place.isFavourite {
+                    heartIcon.image = UIImage(systemName: "heart.fill")
+                    heartIcon.tintColor = UIColor(named: "green")
+                } else {
+                    heartIcon.image = UIImage(systemName: "heart")
+                    heartIcon.tintColor = UIColor(named: "grey")
+                }
                 website.text = place.www
                 placeImage.downloaded(from: BASE_URL + "/api/image/\(place.id)")
             }
@@ -71,6 +85,21 @@ class PlacesTableViewCell: UITableViewCell {
     @objc func tapFunction(_ sender: UITapGestureRecognizer) {
         if let url = place?.www {
             self.delegate.openWebsite(url: url)
+        }
+    }
+    
+    @objc func heartTapped(_ sender: UITapGestureRecognizer) {
+        let touch = sender.location(in: tableView)
+        if let path = tableView?.indexPathForRow(at: touch) {
+            if heartIcon.tintColor == UIColor(named: "grey") {
+                heartIcon.image = UIImage(systemName: "heart.fill")
+                heartIcon.tintColor = UIColor(named: "green")
+                delegate.heartTapped(id: path.row, isFav: true)
+            } else {
+                heartIcon.image = UIImage(systemName: "heart")
+                heartIcon.tintColor = UIColor(named: "grey")
+                delegate.heartTapped(id: path.row, isFav: false)
+            }
         }
     }
     
