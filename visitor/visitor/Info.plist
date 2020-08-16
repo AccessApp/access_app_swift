@@ -27,6 +27,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>Camera is needed for code scanning.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Bold.ttf</string>
@@ -54,7 +56,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSCameraUsageDescription</key>
-	<string>Camera is needed for code scanning.</string>
 </dict>
 </plist>
