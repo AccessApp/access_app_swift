@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import resources
 
 class PopupViewController: UIViewController {
     

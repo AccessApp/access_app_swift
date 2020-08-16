@@ -2,6 +2,12 @@ workspace 'access-app-swift'
 platform :ios, '11.0'
 use_frameworks!
 
+target 'places' do
+  pod 'Firebase/Analytics'
+  pod 'SwiftJWT'
+  project 'places/places.xcodeproj'
+end
+
 target 'visitor' do
   pod 'Firebase/Analytics'
   pod 'SwiftJWT'

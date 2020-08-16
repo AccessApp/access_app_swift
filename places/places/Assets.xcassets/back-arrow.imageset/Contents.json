@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "calendar-alt.png",
+      "filename" : "keyboard_backspace-24px.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "calendar-alt@2x.png",
+      "filename" : "keyboard_backspace-24px@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

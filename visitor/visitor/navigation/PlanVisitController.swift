@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import resources
 import SafariServices
 
 class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -216,7 +217,8 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer) {
-        let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "placeInfoVC") as UIViewController
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "placeInfoVC") as! PlaceInfoViewController
+        viewController.place = place
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

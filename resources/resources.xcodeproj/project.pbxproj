@@ -10,7 +10,8 @@
 		2B488BC124B4D702004C3630 /* resources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B488BB724B4D701004C3630 /* resources.framework */; };
 		2B488BC624B4D702004C3630 /* resourcesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BC524B4D702004C3630 /* resourcesTests.swift */; };
 		2B488BC824B4D702004C3630 /* resources.h in Headers */ = {isa = PBXBuildFile; fileRef = 2B488BBA24B4D701004C3630 /* resources.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2B488BD224B4D725004C3630 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B488BD124B4D725004C3630 /* Assets.xcassets */; };
+		2B554B6A24E4129100A7B1C9 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B6924E4129000A7B1C9 /* Model.swift */; };
+		2B554B7424E41B2300A7B1C9 /* CustomScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B7324E41B2300A7B1C9 /* CustomScanner.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +31,8 @@
 		2B488BC024B4D702004C3630 /* resourcesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = resourcesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B488BC524B4D702004C3630 /* resourcesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = resourcesTests.swift; sourceTree = "<group>"; };
 		2B488BC724B4D702004C3630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2B488BD124B4D725004C3630 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2B554B6924E4129000A7B1C9 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		2B554B7324E41B2300A7B1C9 /* CustomScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScanner.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,9 +75,10 @@
 		2B488BB924B4D701004C3630 /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				2B554B6924E4129000A7B1C9 /* Model.swift */,
+				2B554B7324E41B2300A7B1C9 /* CustomScanner.swift */,
 				2B488BBA24B4D701004C3630 /* resources.h */,
 				2B488BBB24B4D701004C3630 /* Info.plist */,
-				2B488BD124B4D725004C3630 /* Assets.xcassets */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -181,7 +184,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2B488BD224B4D725004C3630 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +201,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B554B7424E41B2300A7B1C9 /* CustomScanner.swift in Sources */,
+				2B554B6A24E4129100A7B1C9 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,6 +398,7 @@
 		2B488BCF24B4D702004C3630 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = resourcesTests/Info.plist;
@@ -412,6 +417,7 @@
 		2B488BD024B4D702004C3630 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = resourcesTests/Info.plist;

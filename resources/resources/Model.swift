@@ -12,21 +12,21 @@
 
 import Foundation
 
-let BASE_URL = "http://162.13.159.108:3001"
+public let BASE_URL = "http://162.13.159.108:3001"
 
 // MARK: - Welcome
-struct Welcome: Codable {
-    let places: [Place]
+public struct Welcome: Codable {
+    public let places: [Place]
 }
 
 // MARK: - Place
-struct Place: Codable {
-    let id, name, type, placeDescription: String
-    let www: String
-    let address, location: String
-    var isFavourite, approved: Bool
+public struct Place: Codable {
+    public let id, name, type, placeDescription: String
+    public let www: String
+    public let address, location: String
+    public var isFavourite, approved: Bool
     
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case id, name, type
         case placeDescription = "description"
         case www, address, location, isFavourite, approved

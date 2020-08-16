@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import resources
 import SwiftJWT
 import SafariServices
 
@@ -28,17 +29,17 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             onlyFav = true
             typeId = nil
         case "Parks":
-            onlyFav = true
-            typeId = nil
+            onlyFav = nil
+            typeId = 0
         case "Museums":
-            onlyFav = true
-            typeId = nil
+            onlyFav = nil
+            typeId = 1
         default:
             onlyFav = nil
             typeId = nil
         }
         setFocus(btn_unfocus: button_unfocus, btn_focus: sender)
-        getAllPlaces()
+        reset()
     }
     var button_unfocus = UIButton()
     @IBOutlet var searchTF: UITextField! {
@@ -66,15 +67,13 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         } else {
             getUserId()
         }
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
-//        self.view.addGestureRecognizer(tapGesture)
         self.tabBarController?.tabBar.layer.borderWidth = 0.50
         self.tabBarController?.tabBar.layer.borderColor = UIColor.clear.cgColor
         self.tabBarController?.tabBar.clipsToBounds = true
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.separatorColor = UIColor.clear
-        setFocus(btn_unfocus: button_unfocus, btn_focus: filterBtns[2])
+        setFocus(btn_unfocus: button_unfocus, btn_focus: filterBtns[0])
     }
     
     @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
@@ -169,6 +168,12 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         })
         
         dataTask?.resume()
+    }
+    
+    func reset() {
+        places?.removeAll()
+        tableView.reloadData()
+        getAllPlaces()
     }
     
     func addRemoveFavourite(id: String?) {

@@ -7,13 +7,26 @@
 //
 
 import UIKit
+import resources
+import AVFoundation
 
-class ScanViewController: UIViewController {
+class ScanViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate, ScannerDelegate {
+    
+    @IBOutlet var scanView: UIView!
+    var scanner: CustomScanner?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCustomNavBar()
+        
+        self.scanner = CustomScanner(withDelegate: self)
+        
+        guard let scanner = self.scanner else {
+            return
+        }
+        
+        scanner.requestCaptureSessionStartRunning()
     }
     
     func setupCustomNavBar() {
@@ -51,5 +64,33 @@ class ScanViewController: UIViewController {
     @objc func openProfile(_ sender: UIBarButtonItem) {
         let viewController: UIViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "profileController") as UIViewController
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    // Mark - AVFoundation delegate methods
+    public func metadataOutput(_ output: AVCaptureMetadataOutput,
+                               didOutput metadataObjects: [AVMetadataObject],
+                               from connection: AVCaptureConnection) {
+        guard let scanner = self.scanner else {
+            return
+        }
+        scanner.metadataOutput(output,
+                               didOutput: metadataObjects,
+                               from: connection)
+    }
+    
+    // Mark - Scanner delegate methods
+    func cameraView() -> UIView
+    {
+        return self.scanView
+    }
+    
+    func delegateViewController() -> UIViewController
+    {
+        return self
+    }
+    
+    func scanCompleted(withCode code: String)
+    {
+        print(code)
     }
 }

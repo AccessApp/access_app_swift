@@ -12,15 +12,14 @@
 		2B032DAE24C0A424007BC8AA /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B032DAD24C0A424007BC8AA /* PopupViewController.swift */; };
 		2B3BC16E24C5B286004DF5AD /* OnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */; };
 		2B3BC17424C5DBEA004DF5AD /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */; };
+		2B3BC17824C9CD43004DF5AD /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3BC17724C9CD43004DF5AD /* PlaceInfoViewController.swift */; };
 		2B46799A24BBB99D00C995E5 /* jwt-key.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799924BBB99D00C995E5 /* jwt-key.txt */; };
-		2B46799C24BC491B00C995E5 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B46799B24BC491B00C995E5 /* Model.swift */; };
 		2B46799D24BC554200C995E5 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799624BBB34E00C995E5 /* Rubik-Bold.ttf */; };
 		2B46799E24BC554200C995E5 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799724BBB34E00C995E5 /* Rubik-Medium.ttf */; };
 		2B46799F24BC554200C995E5 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B46799824BBB34E00C995E5 /* Rubik-Regular.ttf */; };
 		2B4679A124BC5E8A00C995E5 /* PlanVisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4679A024BC5E8A00C995E5 /* PlanVisitController.swift */; };
 		2B4679A324BC89B300C995E5 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4679A224BC89B300C995E5 /* ProfileViewController.swift */; };
 		2B488B7E24B4CCFC004C3630 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488B7D24B4CCFC004C3630 /* AppDelegate.swift */; };
-		2B488B8524B4CCFC004C3630 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B488B8324B4CCFC004C3630 /* Main.storyboard */; };
 		2B488B8724B4CD03004C3630 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2B488B8624B4CD03004C3630 /* Assets.xcassets */; };
 		2B488B8A24B4CD03004C3630 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B488B8824B4CD03004C3630 /* LaunchScreen.storyboard */; };
 		2B488B9524B4CD03004C3630 /* visitorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488B9424B4CD03004C3630 /* visitorTests.swift */; };
@@ -28,10 +27,11 @@
 		2B488BD524B4D99A004C3630 /* resources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B488BD424B4D99A004C3630 /* resources.framework */; };
 		2B488BD624B4D99A004C3630 /* resources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B488BD424B4D99A004C3630 /* resources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B488BDA24B61CA0004C3630 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BD924B61CA0004C3630 /* PlacesViewController.swift */; };
-		2B488BDC24B61CB1004C3630 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BDB24B61CB1004C3630 /* PlannerViewController.swift */; };
 		2B488BDE24B61CC1004C3630 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BDD24B61CC1004C3630 /* ScanViewController.swift */; };
-		2B488BE424B67EF6004C3630 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B488BE324B67EF6004C3630 /* GoogleService-Info.plist */; };
 		2B488BE624BAFA83004C3630 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */; };
+		2B554B7224E419C000A7B1C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B7024E419C000A7B1C9 /* Main.storyboard */; };
+		2B554B7624E42AF100A7B1C9 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */; };
+		2BCA0D9324CE301F0044BC5A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BCA0D9224CE301F0044BC5A /* GoogleService-Info.plist */; };
 		96424E7FB7C1FCADDC041051 /* Pods_visitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F378899AB3B53E9CEFB1853 /* Pods_visitor.framework */; };
 /* End PBXBuildFile section */
 
@@ -72,16 +72,15 @@
 		2B032DAD24C0A424007BC8AA /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardViewController.swift; sourceTree = "<group>"; };
 		2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
+		2B3BC17724C9CD43004DF5AD /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
 		2B46799624BBB34E00C995E5 /* Rubik-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Bold.ttf"; sourceTree = "<group>"; };
 		2B46799724BBB34E00C995E5 /* Rubik-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Medium.ttf"; sourceTree = "<group>"; };
 		2B46799824BBB34E00C995E5 /* Rubik-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rubik-Regular.ttf"; sourceTree = "<group>"; };
 		2B46799924BBB99D00C995E5 /* jwt-key.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "jwt-key.txt"; sourceTree = "<group>"; };
-		2B46799B24BC491B00C995E5 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2B4679A024BC5E8A00C995E5 /* PlanVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitController.swift; sourceTree = "<group>"; };
 		2B4679A224BC89B300C995E5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2B488B7A24B4CCFC004C3630 /* Access App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Access App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B488B7D24B4CCFC004C3630 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		2B488B8424B4CCFC004C3630 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B488B8624B4CD03004C3630 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B488B8924B4CD03004C3630 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2B488B8B24B4CD03004C3630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -93,10 +92,11 @@
 		2B488BA124B4CD03004C3630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B488BD424B4D99A004C3630 /* resources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = resources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B488BD924B61CA0004C3630 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
-		2B488BDB24B61CB1004C3630 /* PlannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		2B488BDD24B61CC1004C3630 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
-		2B488BE324B67EF6004C3630 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
+		2B554B7124E419C000A7B1C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
+		2BCA0D9224CE301F0044BC5A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3F378899AB3B53E9CEFB1853 /* Pods_visitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_visitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		448797F85194DC44955326D3 /* Pods-visitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visitor.release.xcconfig"; path = "Target Support Files/Pods-visitor/Pods-visitor.release.xcconfig"; sourceTree = "<group>"; };
 		9CE70447A11E8FC14ECA6C6D /* Pods-visitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visitor.debug.xcconfig"; path = "Target Support Files/Pods-visitor/Pods-visitor.debug.xcconfig"; sourceTree = "<group>"; };
@@ -168,18 +168,17 @@
 				2B46799524BBB34200C995E5 /* fonts */,
 				2B488BD824B61C54004C3630 /* navigation */,
 				2B488B7D24B4CCFC004C3630 /* AppDelegate.swift */,
-				2B46799B24BC491B00C995E5 /* Model.swift */,
 				2B032DAD24C0A424007BC8AA /* PopupViewController.swift */,
 				2B032DA924BE6138007BC8AA /* PlanVisitCell.swift */,
 				2B3BC17324C5DBEA004DF5AD /* VisitCell.swift */,
 				2B032DAB24BF2943007BC8AA /* PlanVisitHeaderCell.swift */,
 				2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */,
 				2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */,
-				2B488B8324B4CCFC004C3630 /* Main.storyboard */,
+				2B554B7024E419C000A7B1C9 /* Main.storyboard */,
 				2B488B8624B4CD03004C3630 /* Assets.xcassets */,
 				2B488B8824B4CD03004C3630 /* LaunchScreen.storyboard */,
 				2B488B8B24B4CD03004C3630 /* Info.plist */,
-				2B488BE324B67EF6004C3630 /* GoogleService-Info.plist */,
+				2BCA0D9224CE301F0044BC5A /* GoogleService-Info.plist */,
 			);
 			path = visitor;
 			sourceTree = "<group>";
@@ -215,9 +214,10 @@
 			isa = PBXGroup;
 			children = (
 				2B488BD924B61CA0004C3630 /* PlacesViewController.swift */,
-				2B488BDB24B61CB1004C3630 /* PlannerViewController.swift */,
+				2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */,
 				2B488BDD24B61CC1004C3630 /* ScanViewController.swift */,
 				2B4679A024BC5E8A00C995E5 /* PlanVisitController.swift */,
+				2B3BC17724C9CD43004DF5AD /* PlaceInfoViewController.swift */,
 				2B4679A224BC89B300C995E5 /* ProfileViewController.swift */,
 			);
 			path = navigation;
@@ -341,13 +341,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B46799D24BC554200C995E5 /* Rubik-Bold.ttf in Resources */,
+				2BCA0D9324CE301F0044BC5A /* GoogleService-Info.plist in Resources */,
 				2B46799E24BC554200C995E5 /* Rubik-Medium.ttf in Resources */,
+				2B554B7224E419C000A7B1C9 /* Main.storyboard in Resources */,
 				2B46799F24BC554200C995E5 /* Rubik-Regular.ttf in Resources */,
 				2B488B8A24B4CD03004C3630 /* LaunchScreen.storyboard in Resources */,
-				2B488BE424B67EF6004C3630 /* GoogleService-Info.plist in Resources */,
 				2B46799A24BBB99D00C995E5 /* jwt-key.txt in Resources */,
 				2B488B8724B4CD03004C3630 /* Assets.xcassets in Resources */,
-				2B488B8524B4CCFC004C3630 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -415,12 +415,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B032DAE24C0A424007BC8AA /* PopupViewController.swift in Sources */,
-				2B46799C24BC491B00C995E5 /* Model.swift in Sources */,
 				2B3BC16E24C5B286004DF5AD /* OnboardViewController.swift in Sources */,
 				2B488BDA24B61CA0004C3630 /* PlacesViewController.swift in Sources */,
-				2B488BDC24B61CB1004C3630 /* PlannerViewController.swift in Sources */,
+				2B3BC17824C9CD43004DF5AD /* PlaceInfoViewController.swift in Sources */,
 				2B488BDE24B61CC1004C3630 /* ScanViewController.swift in Sources */,
 				2B4679A124BC5E8A00C995E5 /* PlanVisitController.swift in Sources */,
+				2B554B7624E42AF100A7B1C9 /* PlannerViewController.swift in Sources */,
 				2B3BC17424C5DBEA004DF5AD /* VisitCell.swift in Sources */,
 				2B032DAC24BF2943007BC8AA /* PlanVisitHeaderCell.swift in Sources */,
 				2B488B7E24B4CCFC004C3630 /* AppDelegate.swift in Sources */,
@@ -462,20 +462,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2B488B8324B4CCFC004C3630 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2B488B8424B4CCFC004C3630 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		2B488B8824B4CD03004C3630 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
 				2B488B8924B4CD03004C3630 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		2B554B7024E419C000A7B1C9 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2B554B7124E419C000A7B1C9 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -601,7 +601,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -624,7 +624,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 10;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = s;
