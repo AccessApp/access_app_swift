@@ -78,6 +78,11 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         view.bringSubviewToFront(addPlace)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        getAllPlaces()
+    }
+    
     static func getJwtToken() -> String? {
         if let filepath = Bundle.main.path(forResource: "jwt-key", ofType: "txt") {
             do {
@@ -92,10 +97,10 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
                 var myJWT = JWT(header: myHeader, claims: myClaims)
                 do {
                     let signedJWT = try myJWT.sign(using: jwtSigner)
-                    print(signedJWT)
+                    //                    print(signedJWT)
                     return signedJWT
                 } catch {
-                    print("error")
+                    print("error getting JWT token")
                 }
             } catch {
                 
@@ -138,13 +143,13 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let userId = UserDefaults.standard.string(forKey: "userId")
         var url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")")!
         var queryItems = [URLQueryItem]()
-        if typeId != nil {
-            queryItems.append(URLQueryItem(name: "typeId", value: (typeId?.description ?? "none")))
+        queryItems.append(URLQueryItem(name: "own", value: "true"))
+        if let typeId = typeId {
+            queryItems.append(URLQueryItem(name: "typeId", value: (typeId.description)))
         }
-        if onlyFav != nil {
-            queryItems.append(URLQueryItem(name: "onlyFavourites", value: (onlyFav?.description ?? "none")))
+        if let onlyFav = onlyFav {
+            queryItems.append(URLQueryItem(name: "onlyFavourites", value: (onlyFav.description)))
         }
-        queryItems.append(URLQueryItem(name: "approved", value: "true"))
         url.queryItems = queryItems
         var request = URLRequest(url: url.url!)
         print(String(url.url!.absoluteString))
@@ -155,14 +160,29 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let decoder = JSONDecoder()
             if let data = data {
-                let welcome = try? JSONDecoder().decode(Welcome.self, from: data)
-                self.places = welcome?.places
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                do {
+                    let welcome = try decoder.decode(Welcome.self, from: data)
+                    self.places = welcome.places
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print(context)
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch {
+                    print("error: ", error)
                 }
             }
-            
         })
         
         dataTask?.resume()
@@ -247,8 +267,10 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func openWebsite(url: String!) {
         if let url = URL(string: url) {
-            let svc = SFSafariViewController(url: url)
-            self.present(svc, animated: true, completion: nil)
+            if UIApplication.shared.canOpenURL(url as URL) {
+                let svc = SFSafariViewController(url: url)
+                self.present(svc, animated: true, completion: nil)
+            }
         }
     }
     
@@ -263,7 +285,11 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return places!.count
+        if places != nil {
+            return places!.count
+        } else {
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -279,29 +305,9 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "planVisitController") as! PlanVisitController
+        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "placeInfoController") as! PlaceInfoViewController
         viewController.place = places![indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-extension UIImageView {
-    func downloaded(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() { [weak self] in
-                self?.image = image
-            }
-        }.resume()
-    }
-    func downloaded(from link: String) {
-        guard let url = URL(string: link) else { return }
-        downloaded(from: url)
     }
 }
 

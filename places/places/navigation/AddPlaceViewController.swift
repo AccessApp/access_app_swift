@@ -11,24 +11,51 @@ import resources
 
 class AddPlaceViewController: UIViewController, UITextViewDelegate {
     
-    @IBOutlet var scrollView: UIScrollView!
-    var activeField: UITextView?
+    var dataTask: URLSessionDataTask?
+    let defaultSession = URLSession(configuration: .default)
+    var imgBase64: String?
+    var place: Place?
     
+    @IBAction func addPlaceClicked(_ sender: UIButton) {
+        self.addPlace()
+    }
+    @IBAction func uploadImage(_ sender: UIButton) {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: {
+            action in
+            picker.sourceType = .camera
+            self.present(picker, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: {
+            action in
+            picker.sourceType = .photoLibrary
+            self.present(picker, animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    @IBOutlet var scrollView: UIScrollView!
+    
+    @IBOutlet var imageView: UIImageView!
     @IBOutlet var placeNameTV: UITextView! {
         didSet {
             placeNameTV.tag = 1
+            placeNameTV.placeholder = "Enter name of place..."
             placeNameTV.layer.masksToBounds = true
             placeNameTV.layer.cornerRadius = 5
             placeNameTV.contentInset.top = 5.0
             placeNameTV.layer.borderWidth = 1
             placeNameTV.layer.borderColor = UIColor(named: "light-grey")?.cgColor
-            placeNameTV.text = "Enter name of place..."
         }
     }
     
     @IBOutlet var locationTV: UITextView! {
         didSet {
             locationTV.tag = 2
+            locationTV.placeholder = "Enter location..."
             locationTV.layer.masksToBounds = true
             locationTV.layer.cornerRadius = 5
             locationTV.contentInset.top = 5.0
@@ -40,6 +67,7 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var descTV: UITextView! {
         didSet {
             descTV.tag = 3
+            descTV.placeholder = "Enter description..."
             descTV.layer.masksToBounds = true
             descTV.layer.cornerRadius = 5
             descTV.layer.borderWidth = 1
@@ -50,6 +78,7 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
     @IBOutlet var urlTV: UITextView! {
         didSet {
             urlTV.tag = 4
+            urlTV.placeholder = "Enter place url..."
             urlTV.layer.masksToBounds = true
             urlTV.layer.cornerRadius = 5
             urlTV.contentInset.top = 5.0
@@ -63,24 +92,12 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         
         setupCustomNavBar()
         
-        placeNameTV.delegate = self
-//        placeNameTV.becomeFirstResponder()
-        placeNameTV.selectedTextRange = placeNameTV.textRange(from: placeNameTV.beginningOfDocument, to: placeNameTV.beginningOfDocument)
-        locationTV.delegate = self
-        locationTV.selectedTextRange = locationTV.textRange(from: locationTV.beginningOfDocument, to: locationTV.beginningOfDocument)
-        descTV.delegate = self
-        descTV.selectedTextRange = descTV.textRange(from: descTV.beginningOfDocument, to: descTV.beginningOfDocument)
-        urlTV.delegate = self
-        urlTV.selectedTextRange = urlTV.textRange(from: urlTV.beginningOfDocument, to: urlTV.beginningOfDocument)
-        self.registerForKeyboardNotifications()
-        
-        //Looks for single or multiple taps.
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
-
-        //Uncomment the line below if you want the tap not not interfere and cancel other interactions.
-        //tap.cancelsTouchesInView = false
-
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
         view.addGestureRecognizer(tap)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setupCustomNavBar() {
@@ -101,110 +118,45 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    func addPlace() {
+        guard let image = imgBase64 else { return }
+        guard let name = placeNameTV.text else { return }
+        guard let desc = descTV.text else { return }
+        guard let location = locationTV.text else { return }
+        guard let website = urlTV.text else { return }
+        let userId = UserDefaults.standard.string(forKey: "userId")
+        let url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")")!
+        var request = URLRequest(url: url.url!)
+        request.httpMethod = "POST"
+        let body: [String : Any] = ["name": name as String, "typeId": 0, "description": desc as String, "www": website as String, "location": location as String, "image": image as String]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        if let token = PlacesViewController.getJwtToken() {
+            let headerValue = "Bearer \(token)"
+            request.setValue(headerValue, forHTTPHeaderField: "Authorization")
+        }
         
-        // Combine the textView text and the replacement text to
-        // create the updated text string
-        let currentText:String = textView.text
-        let updatedText = (currentText as NSString).replacingCharacters(in: range, with: text)
-        
-        // If updated text view will be empty, add the placeholder
-        // and set the cursor to the beginning of the text view
-        if updatedText.isEmpty {
-            
-            switch textView.tag {
-            case 1:
-                textView.text = "Enter name of place..."
-            case 2:
-                textView.text = "Enter location..."
-            case 3:
-                textView.text = "Describe the place..."
-            case 4:
-                textView.text = "Enter place url..."
-            default:
-                textView.text = "Enter name of place..."
+        dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            print("REQUEST BODY: \(String(data: request.httpBody!, encoding: String.Encoding(rawValue: String.Encoding.ascii.rawValue))!)")
+            print("REQUEST HEADER: \(String(describing: request.allHTTPHeaderFields!))")
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+                    print(responseJSON["message"]!)
+                }
             }
-            textView.textColor = UIColor(named: "grey")
-            
-            textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
-        }
-            
-            // Else if the text view's placeholder is showing and the
-            // length of the replacement string is greater than 0, set
-            // the text color to black then set its text to the
-            // replacement string
-        else if textView.textColor == UIColor(named: "grey") && !text.isEmpty {
-            textView.textColor = UIColor(named: "text-title")
-            textView.text = text
-        }
-            
-            // For every other case, the text should change with the usual
-            // behavior...
-        else {
-            return true
-        }
-        
-        // ...otherwise return false since the updates have already
-        // been made
-        return false
-    }
-    
-    func textViewDidChangeSelection(_ textView: UITextView) {
-        if self.view.window != nil {
-            if textView.textColor == UIColor(named: "grey") {
-                textView.selectedTextRange = textView.textRange(from: textView.beginningOfDocument, to: textView.beginningOfDocument)
+            DispatchQueue.main.async {
+                self.navigationController?.popViewController(animated: true)
             }
-        }
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        activeField = textView
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        activeField = nil
-    }
-    
-    func registerForKeyboardNotifications(){
-        //Adding notifies on keyboard appearing
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWasShown(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    func deregisterFromKeyboardNotifications(){
-        //Removing notifies on keyboard appearing
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func keyboardWasShown(notification: NSNotification){
-        //Need to calculate keyboard exact size due to Apple suggestions
-        self.scrollView.isScrollEnabled = true
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize!.height, right: 0.0)
+            
+        })
         
-        self.scrollView.contentInset = contentInsets
-        self.scrollView.scrollIndicatorInsets = contentInsets
-        
-        var aRect : CGRect = self.view.frame
-        aRect.size.height -= keyboardSize!.height
-        if let activeField = self.activeField {
-            if (!aRect.contains(activeField.frame.origin)){
-                self.scrollView.scrollRectToVisible(activeField.frame, animated: true)
-            }
-        }
+        dataTask?.resume()
     }
     
-    @objc func keyboardWillBeHidden(notification: NSNotification){
-        //Once keyboard disappears, restore original positions
-        var info = notification.userInfo!
-        let keyboardSize = (info[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue.size
-        let contentInsets : UIEdgeInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: -keyboardSize!.height, right: 0.0)
-        self.scrollView.contentInset = contentInsets
-        self.scrollView.scrollIndicatorInsets = contentInsets
-        self.view.endEditing(true)
-//        self.scrollView.isScrollEnabled = false
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
     
     @objc func dismissKeyboard() {
@@ -212,4 +164,36 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         view.endEditing(true)
     }
     
+    @objc func keyboardWillShow(notification:NSNotification){
+        
+        let userInfo = notification.userInfo!
+        var keyboardFrame:CGRect = (userInfo[UIResponder.keyboardFrameBeginUserInfoKey] as! NSValue).cgRectValue
+        keyboardFrame = self.view.convert(keyboardFrame, from: nil)
+        
+        var contentInset:UIEdgeInsets = self.scrollView.contentInset
+        contentInset.bottom = keyboardFrame.size.height + 20
+        scrollView.contentInset = contentInset
+    }
+    
+    @objc func keyboardWillHide(notification:NSNotification){
+        
+        let contentInset:UIEdgeInsets = UIEdgeInsets.zero
+        scrollView.contentInset = contentInset
+    }
+}
+
+extension AddPlaceViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.originalImage] as? UIImage {
+            self.imageView.contentMode = .scaleAspectFit
+            self.imageView.image = image
+            guard let imageData = image.jpegData(compressionQuality: 0.9) else { return }
+            imgBase64 = imageData.base64EncodedString(options: Data.Base64EncodingOptions.lineLength64Characters)
+            dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
 }

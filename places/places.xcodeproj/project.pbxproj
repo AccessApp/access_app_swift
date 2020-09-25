@@ -18,8 +18,6 @@
 		2B554B4F24E3E9D600A7B1C9 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4724E3E89E00A7B1C9 /* PlacesViewController.swift */; };
 		2B554B5024E3E9D600A7B1C9 /* AddPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4824E3E89E00A7B1C9 /* AddPlaceViewController.swift */; };
 		2B554B5124E3E9D600A7B1C9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4924E3E89E00A7B1C9 /* ScanViewController.swift */; };
-		2B554B5224E3E9D600A7B1C9 /* PlanVisitController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4A24E3E89E00A7B1C9 /* PlanVisitController.swift */; };
-		2B554B5324E3E9D600A7B1C9 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4B24E3E89E00A7B1C9 /* PlaceInfoViewController.swift */; };
 		2B554B5424E3E9D600A7B1C9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4C24E3E89E00A7B1C9 /* ProfileViewController.swift */; };
 		2B554B5D24E3EA5900A7B1C9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5824E3EA5700A7B1C9 /* PlacesTableViewCell.swift */; };
 		2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderCell.swift */; };
@@ -30,6 +28,10 @@
 		2B554B6624E3ED5700A7B1C9 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B4124E3E68A00A7B1C9 /* Rubik-Bold.ttf */; };
 		2B554B6724E3ED5700A7B1C9 /* Rubik-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B4224E3E68A00A7B1C9 /* Rubik-Medium.ttf */; };
 		2B554B6824E3ED5700A7B1C9 /* Rubik-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B4324E3E68A00A7B1C9 /* Rubik-Regular.ttf */; };
+		2B59251E25083F4800F0FED0 /* AddSlotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */; };
+		2B5925202508AE9E00F0FED0 /* resources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B59251F2508AE9E00F0FED0 /* resources.framework */; };
+		2B5925212508AE9E00F0FED0 /* resources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B59251F2508AE9E00F0FED0 /* resources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2BCF77552510B49C002D8A87 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCF77542510B49C002D8A87 /* PlaceInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +50,20 @@
 			remoteInfo = places;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2B5925222508AE9E00F0FED0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B5925212508AE9E00F0FED0 /* resources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0DB59AA74AEBD85EC2AD439C /* Pods_places.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_places.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,14 +87,15 @@
 		2B554B4724E3E89E00A7B1C9 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
 		2B554B4824E3E89E00A7B1C9 /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
 		2B554B4924E3E89E00A7B1C9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
-		2B554B4A24E3E89E00A7B1C9 /* PlanVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitController.swift; sourceTree = "<group>"; };
-		2B554B4B24E3E89E00A7B1C9 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
 		2B554B4C24E3E89E00A7B1C9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitHeaderCell.swift; sourceTree = "<group>"; };
 		2B554B5824E3EA5700A7B1C9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		2B554B5A24E3EA5800A7B1C9 /* PlanVisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitCell.swift; sourceTree = "<group>"; };
 		2B554B5B24E3EA5800A7B1C9 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
 		2B554B5C24E3EA5900A7B1C9 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
+		2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSlotsViewController.swift; sourceTree = "<group>"; };
+		2B59251F2508AE9E00F0FED0 /* resources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = resources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2BCF77542510B49C002D8A87 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
 		672A7D4DA530A7BC41B10D09 /* Pods-places.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-places.debug.xcconfig"; path = "Target Support Files/Pods-places/Pods-places.debug.xcconfig"; sourceTree = "<group>"; };
 		979ACB5F42381B8C13B513E7 /* Pods-places.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-places.release.xcconfig"; path = "Target Support Files/Pods-places/Pods-places.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -88,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B5925202508AE9E00F0FED0 /* resources.framework in Frameworks */,
 				22809634B132582FF55F3AE5 /* Pods_places.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -122,6 +140,7 @@
 		12A0FF2E5127C1E78E13512A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B59251F2508AE9E00F0FED0 /* resources.framework */,
 				0DB59AA74AEBD85EC2AD439C /* Pods_places.framework */,
 			);
 			name = Frameworks;
@@ -156,6 +175,7 @@
 				2B554B4024E3E68A00A7B1C9 /* fonts */,
 				2B554B4D24E3E89E00A7B1C9 /* navigation */,
 				2B554B0D24E3E28D00A7B1C9 /* AppDelegate.swift */,
+				2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */,
 				2B554B5B24E3EA5800A7B1C9 /* PopupViewController.swift */,
 				2B554B5A24E3EA5800A7B1C9 /* PlanVisitCell.swift */,
 				2B554B5C24E3EA5900A7B1C9 /* VisitCell.swift */,
@@ -202,10 +222,9 @@
 			isa = PBXGroup;
 			children = (
 				2B554B4724E3E89E00A7B1C9 /* PlacesViewController.swift */,
+				2BCF77542510B49C002D8A87 /* PlaceInfoViewController.swift */,
 				2B554B4824E3E89E00A7B1C9 /* AddPlaceViewController.swift */,
 				2B554B4924E3E89E00A7B1C9 /* ScanViewController.swift */,
-				2B554B4A24E3E89E00A7B1C9 /* PlanVisitController.swift */,
-				2B554B4B24E3E89E00A7B1C9 /* PlaceInfoViewController.swift */,
 				2B554B4C24E3E89E00A7B1C9 /* ProfileViewController.swift */,
 			);
 			path = navigation;
@@ -223,6 +242,7 @@
 				2B554B0724E3E28D00A7B1C9 /* Frameworks */,
 				2B554B0824E3E28D00A7B1C9 /* Resources */,
 				C00C6E88A25B43EB7A351582 /* [CP] Embed Pods Frameworks */,
+				2B5925222508AE9E00F0FED0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -393,11 +413,11 @@
 			files = (
 				2B554B5F24E3EA5900A7B1C9 /* PopupViewController.swift in Sources */,
 				2B554B6024E3EA5900A7B1C9 /* VisitCell.swift in Sources */,
+				2B59251E25083F4800F0FED0 /* AddSlotsViewController.swift in Sources */,
 				2B554B4F24E3E9D600A7B1C9 /* PlacesViewController.swift in Sources */,
 				2B554B5024E3E9D600A7B1C9 /* AddPlaceViewController.swift in Sources */,
 				2B554B5124E3E9D600A7B1C9 /* ScanViewController.swift in Sources */,
-				2B554B5224E3E9D600A7B1C9 /* PlanVisitController.swift in Sources */,
-				2B554B5324E3E9D600A7B1C9 /* PlaceInfoViewController.swift in Sources */,
+				2BCF77552510B49C002D8A87 /* PlaceInfoViewController.swift in Sources */,
 				2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderCell.swift in Sources */,
 				2B554B5D24E3EA5900A7B1C9 /* PlacesTableViewCell.swift in Sources */,
 				2B554B5424E3E9D600A7B1C9 /* ProfileViewController.swift in Sources */,
@@ -577,6 +597,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -586,7 +607,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.places;
 				PRODUCT_NAME = "Places App";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -596,6 +617,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -605,7 +627,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.places;
 				PRODUCT_NAME = "Places App";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

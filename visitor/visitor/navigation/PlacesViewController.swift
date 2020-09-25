@@ -249,8 +249,10 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func openWebsite(url: String!) {
         if let url = URL(string: url) {
-            let svc = SFSafariViewController(url: url)
-            self.present(svc, animated: true, completion: nil)
+            if UIApplication.shared.canOpenURL(url as URL) {
+                let svc = SFSafariViewController(url: url)
+                self.present(svc, animated: true, completion: nil)
+            }
         }
     }
     
@@ -284,26 +286,6 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "planVisitController") as! PlanVisitController
         viewController.place = places![indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)
-    }
-}
-
-extension UIImageView {
-    func downloaded(from url: URL) {
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard
-                let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                let data = data, error == nil,
-                let image = UIImage(data: data)
-                else { return }
-            DispatchQueue.main.async() { [weak self] in
-                self?.image = image
-            }
-        }.resume()
-    }
-    func downloaded(from link: String) {
-        guard let url = URL(string: link) else { return }
-        downloaded(from: url)
     }
 }
 

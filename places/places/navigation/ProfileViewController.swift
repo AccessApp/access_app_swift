@@ -13,13 +13,15 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet var textField: UITextField!
     @IBAction func saveButton(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
+        UserDefaults.standard.set(textField.text, forKey: "age")
+        navigationController?.popViewController(animated: true)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         textField.delegate = self
+        textField.text = UserDefaults.standard.string(forKey: "age")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard(_:)))
         self.view.addGestureRecognizer(tapGesture)
     }

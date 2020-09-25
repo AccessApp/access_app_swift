@@ -27,7 +27,6 @@
 		2B488BD524B4D99A004C3630 /* resources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B488BD424B4D99A004C3630 /* resources.framework */; };
 		2B488BD624B4D99A004C3630 /* resources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B488BD424B4D99A004C3630 /* resources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B488BDA24B61CA0004C3630 /* PlacesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BD924B61CA0004C3630 /* PlacesViewController.swift */; };
-		2B488BDE24B61CC1004C3630 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BDD24B61CC1004C3630 /* ScanViewController.swift */; };
 		2B488BE624BAFA83004C3630 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */; };
 		2B554B7224E419C000A7B1C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B7024E419C000A7B1C9 /* Main.storyboard */; };
 		2B554B7624E42AF100A7B1C9 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */; };
@@ -92,7 +91,6 @@
 		2B488BA124B4CD03004C3630 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2B488BD424B4D99A004C3630 /* resources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = resources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B488BD924B61CA0004C3630 /* PlacesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesViewController.swift; sourceTree = "<group>"; };
-		2B488BDD24B61CC1004C3630 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		2B554B7124E419C000A7B1C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
@@ -215,7 +213,6 @@
 			children = (
 				2B488BD924B61CA0004C3630 /* PlacesViewController.swift */,
 				2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */,
-				2B488BDD24B61CC1004C3630 /* ScanViewController.swift */,
 				2B4679A024BC5E8A00C995E5 /* PlanVisitController.swift */,
 				2B3BC17724C9CD43004DF5AD /* PlaceInfoViewController.swift */,
 				2B4679A224BC89B300C995E5 /* ProfileViewController.swift */,
@@ -418,7 +415,6 @@
 				2B3BC16E24C5B286004DF5AD /* OnboardViewController.swift in Sources */,
 				2B488BDA24B61CA0004C3630 /* PlacesViewController.swift in Sources */,
 				2B3BC17824C9CD43004DF5AD /* PlaceInfoViewController.swift in Sources */,
-				2B488BDE24B61CC1004C3630 /* ScanViewController.swift in Sources */,
 				2B4679A124BC5E8A00C995E5 /* PlanVisitController.swift in Sources */,
 				2B554B7624E42AF100A7B1C9 /* PlannerViewController.swift in Sources */,
 				2B3BC17424C5DBEA004DF5AD /* VisitCell.swift in Sources */,
@@ -601,7 +597,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -614,7 +610,7 @@
 				PRODUCT_NAME = "Access App";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -624,7 +620,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -637,7 +633,7 @@
 				PRODUCT_NAME = "Access App";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

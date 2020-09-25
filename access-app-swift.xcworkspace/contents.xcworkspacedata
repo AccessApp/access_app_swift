@@ -5,10 +5,10 @@
       location = "group:places/places.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:resources/resources.xcodeproj">
+      location = "group:visitor/visitor.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:visitor/visitor.xcodeproj">
+      location = "group:resources/resources.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">
