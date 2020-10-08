@@ -31,6 +31,7 @@
 		2B554B7224E419C000A7B1C9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B7024E419C000A7B1C9 /* Main.storyboard */; };
 		2B554B7624E42AF100A7B1C9 /* PlannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */; };
 		2BCA0D9324CE301F0044BC5A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BCA0D9224CE301F0044BC5A /* GoogleService-Info.plist */; };
+		2BD20FC8252F3BB000CD581A /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20FC7252F3BB000CD581A /* DesignableUITextField.swift */; };
 		96424E7FB7C1FCADDC041051 /* Pods_visitor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F378899AB3B53E9CEFB1853 /* Pods_visitor.framework */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +79,7 @@
 		2B46799924BBB99D00C995E5 /* jwt-key.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "jwt-key.txt"; sourceTree = "<group>"; };
 		2B4679A024BC5E8A00C995E5 /* PlanVisitController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitController.swift; sourceTree = "<group>"; };
 		2B4679A224BC89B300C995E5 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		2B488B7A24B4CCFC004C3630 /* Access App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Access App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B488B7A24B4CCFC004C3630 /* AccessApp Visitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AccessApp Visitor.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B488B7D24B4CCFC004C3630 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2B488B8624B4CD03004C3630 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2B488B8924B4CD03004C3630 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -95,6 +96,7 @@
 		2B554B7124E419C000A7B1C9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2B554B7524E42AF100A7B1C9 /* PlannerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlannerViewController.swift; sourceTree = "<group>"; };
 		2BCA0D9224CE301F0044BC5A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		2BD20FC7252F3BB000CD581A /* DesignableUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableUITextField.swift; sourceTree = "<group>"; };
 		3F378899AB3B53E9CEFB1853 /* Pods_visitor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_visitor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		448797F85194DC44955326D3 /* Pods-visitor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visitor.release.xcconfig"; path = "Target Support Files/Pods-visitor/Pods-visitor.release.xcconfig"; sourceTree = "<group>"; };
 		9CE70447A11E8FC14ECA6C6D /* Pods-visitor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visitor.debug.xcconfig"; path = "Target Support Files/Pods-visitor/Pods-visitor.debug.xcconfig"; sourceTree = "<group>"; };
@@ -152,7 +154,7 @@
 		2B488B7B24B4CCFC004C3630 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2B488B7A24B4CCFC004C3630 /* Access App.app */,
+				2B488B7A24B4CCFC004C3630 /* AccessApp Visitor.app */,
 				2B488B9024B4CD03004C3630 /* visitorTests.xctest */,
 				2B488B9B24B4CD03004C3630 /* visitorUITests.xctest */,
 			);
@@ -172,6 +174,7 @@
 				2B032DAB24BF2943007BC8AA /* PlanVisitHeaderCell.swift */,
 				2B488BE524BAFA83004C3630 /* PlacesTableViewCell.swift */,
 				2B3BC16D24C5B286004DF5AD /* OnboardViewController.swift */,
+				2BD20FC7252F3BB000CD581A /* DesignableUITextField.swift */,
 				2B554B7024E419C000A7B1C9 /* Main.storyboard */,
 				2B488B8624B4CD03004C3630 /* Assets.xcassets */,
 				2B488B8824B4CD03004C3630 /* LaunchScreen.storyboard */,
@@ -250,7 +253,7 @@
 			);
 			name = visitor;
 			productName = visitor;
-			productReference = 2B488B7A24B4CCFC004C3630 /* Access App.app */;
+			productReference = 2B488B7A24B4CCFC004C3630 /* AccessApp Visitor.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2B488B8F24B4CD03004C3630 /* visitorTests */ = {
@@ -423,6 +426,7 @@
 				2B032DAA24BE6138007BC8AA /* PlanVisitCell.swift in Sources */,
 				2B4679A324BC89B300C995E5 /* ProfileViewController.swift in Sources */,
 				2B488BE624BAFA83004C3630 /* PlacesTableViewCell.swift in Sources */,
+				2BD20FC8252F3BB000CD581A /* DesignableUITextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,12 +606,13 @@
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = visitor/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.visitor;
-				PRODUCT_NAME = "Access App";
+				PRODUCT_NAME = "AccessApp Visitor";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -625,12 +630,13 @@
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = visitor/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = app.downloadaccess.visitor;
-				PRODUCT_NAME = "Access App";
+				PRODUCT_NAME = "AccessApp Visitor";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

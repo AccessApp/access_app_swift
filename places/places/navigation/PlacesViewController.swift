@@ -231,11 +231,11 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         logo.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         self.navigationItem.titleView?.addSubview(logo)
         
-        let btn1 = UIButton(type: .custom)
-        btn1.setImage(UIImage(named: "near_me"), for: .normal)
-        btn1.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        let item1 = UIBarButtonItem(customView: btn1)
-        self.navigationItem.leftBarButtonItem = item1
+//        let btn1 = UIButton(type: .custom)
+//        btn1.setImage(UIImage(named: "near_me"), for: .normal)
+//        btn1.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+//        let item1 = UIBarButtonItem(customView: btn1)
+//        self.navigationItem.leftBarButtonItem = item1
         
         let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(named: "profile"), for: .normal)

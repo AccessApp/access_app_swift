@@ -46,13 +46,12 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         didSet {
             searchTF.layer.masksToBounds = true
             searchTF.layer.cornerRadius = 20
+//            searchTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: searchTF.frame.height))
+//            searchTF.leftViewMode = .always
+            let imageView = UIImageView(image: UIImage(named: "search"))
+            imageView.contentMode = .scaleAspectFit
+            searchTF.rightView = imageView
             searchTF.rightViewMode = .always
-            searchTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: searchTF.frame.height))
-            searchTF.leftViewMode = .always
-            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 17))
-            image.image = UIImage(named: "search")
-            image.contentMode = .scaleAspectFit
-            searchTF.rightView = image
         }
     }
     
@@ -213,11 +212,11 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         logo.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
         self.navigationItem.titleView?.addSubview(logo)
         
-        let btn1 = UIButton(type: .custom)
-        btn1.setImage(UIImage(named: "near_me"), for: .normal)
-        btn1.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
-        let item1 = UIBarButtonItem(customView: btn1)
-        self.navigationItem.leftBarButtonItem = item1
+//        let btn1 = UIButton(type: .custom)
+//        btn1.setImage(UIImage(named: "near_me"), for: .normal)
+//        btn1.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+//        let item1 = UIBarButtonItem(customView: btn1)
+//        self.navigationItem.leftBarButtonItem = item1
         
         let btn2 = UIButton(type: .custom)
         btn2.setImage(UIImage(named: "profile"), for: .normal)

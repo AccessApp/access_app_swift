@@ -13,6 +13,7 @@
 		2B554B6A24E4129100A7B1C9 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B6924E4129000A7B1C9 /* Model.swift */; };
 		2B554B7424E41B2300A7B1C9 /* CustomScanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B7324E41B2300A7B1C9 /* CustomScanner.swift */; };
 		2BCF7753250CCF32002D8A87 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCF7752250CCF32002D8A87 /* Extensions.swift */; };
+		2BD20FC6252F39ED00CD581A /* DesignableUITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD20FC5252F39ED00CD581A /* DesignableUITextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +36,7 @@
 		2B554B6924E4129000A7B1C9 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2B554B7324E41B2300A7B1C9 /* CustomScanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomScanner.swift; sourceTree = "<group>"; };
 		2BCF7752250CCF32002D8A87 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		2BD20FC5252F39ED00CD581A /* DesignableUITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DesignableUITextField.swift; path = ../../visitor/visitor/DesignableUITextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +84,7 @@
 				2BCF7752250CCF32002D8A87 /* Extensions.swift */,
 				2B488BBA24B4D701004C3630 /* resources.h */,
 				2B488BBB24B4D701004C3630 /* Info.plist */,
+				2BD20FC5252F39ED00CD581A /* DesignableUITextField.swift */,
 			);
 			path = resources;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				2B554B7424E41B2300A7B1C9 /* CustomScanner.swift in Sources */,
 				2BCF7753250CCF32002D8A87 /* Extensions.swift in Sources */,
 				2B554B6A24E4129100A7B1C9 /* Model.swift in Sources */,
+				2BD20FC6252F39ED00CD581A /* DesignableUITextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

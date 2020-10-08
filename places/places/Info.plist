@@ -20,8 +20,16 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FirebaseScreenReportingEnabled</key>
 	<true/>
+	<key>FirebaseScreenReportingEnabled - 2</key>
+	<false/>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>$(PRODUCT_NAME) camera use</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>$(PRODUCT_NAME) photo use</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Rubik-Bold.ttf</string>
@@ -41,6 +49,7 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
