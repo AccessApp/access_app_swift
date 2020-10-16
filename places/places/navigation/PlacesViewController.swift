@@ -11,7 +11,7 @@ import resources
 import SwiftJWT
 import SafariServices
 
-class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, PlacesCellProtocol {
+class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, PlacesCellProtocol {
     
     var dataTask: URLSessionDataTask?
     let defaultSession = URLSession(configuration: .default)
@@ -43,6 +43,8 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         reset()
     }
     var button_unfocus = UIButton()
+    var searchActive : Bool = false
+    var placesFiltered: [Place]? = [Place]()
     @IBOutlet var searchTF: UITextField! {
         didSet {
             searchTF.layer.masksToBounds = true
@@ -61,6 +63,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         super.viewDidLoad()
         
         UserDefaults.standard.set(false, forKey: "_UIConstraintBasedLayoutLogUnsatisfiable")
+        self.hideKeyboardWhenTappedAround()
         
         setupCustomNavBar()
         if UserDefaults.standard.string(forKey: "userId") != nil {
@@ -75,7 +78,8 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.dataSource = self
         self.tableView.separatorColor = UIColor.clear
         setFocus(btn_unfocus: button_unfocus, btn_focus: filterBtns[0])
-        view.bringSubviewToFront(addPlace)
+        self.searchTF.delegate = self
+        self.searchTF.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -285,11 +289,28 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if places != nil {
-            return places!.count
-        } else {
-            return 0
+        var numOfSections: Int = 0
+        
+        if searchActive && placesFiltered != nil {
+            numOfSections = placesFiltered!.count
+        } else if !searchActive && places != nil {
+            numOfSections = places!.count
         }
+        
+        if numOfSections > 0 {
+            tableView.backgroundView = nil
+        } else {
+            let noDataLabel: UILabel  = UILabel(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: tableView.bounds.size.height))
+            noDataLabel.numberOfLines = 0
+            noDataLabel.text = "No places to show.\nTap on the Add Place button below."
+            noDataLabel.textColor = UIColor(named: "text-title")
+            noDataLabel.font = UIFont(name: "Rubik-Medium", size: 14.0)
+            noDataLabel.textAlignment = .center
+            tableView.backgroundView = noDataLabel
+            tableView.separatorStyle = .none
+        }
+        
+        return numOfSections
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -297,8 +318,11 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             fatalError("No CardTableViewCell for cardCell id")
         }
         
-        // Put data into the cell
-        cell.place = places![indexPath.row]
+        if searchActive {
+            cell.place = placesFiltered![indexPath.row]
+        } else {
+            cell.place = places![indexPath.row];
+        }
         cell.tableView = tableView
         cell.delegate = self
         return cell
@@ -308,6 +332,27 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "placeInfoController") as! PlaceInfoViewController
         viewController.place = places![indexPath.row]
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        let searchText = textField.text
+        
+        placesFiltered = places!.filter({ (place) -> Bool in
+            let placeName: NSString = place.name as NSString
+            let range = placeName.range(of: searchText!, options: NSString.CompareOptions.caseInsensitive)
+            return range.location != NSNotFound
+        })
+        if (placesFiltered!.count == 0){
+            searchActive = false;
+        } else {
+            searchActive = true;
+        }
+        self.tableView.reloadData()
     }
 }
 

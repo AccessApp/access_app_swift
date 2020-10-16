@@ -44,7 +44,7 @@
         <!--Places View Controller-->
         <scene sceneID="yrG-TY-Xbi">
             <objects>
-                <viewController id="P16-Ow-ffJ" customClass="PlacesViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="P16-Ow-ffJ" customClass="PlacesViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="iMA-Cg-uyA">
                         <rect key="frame" x="0.0" y="0.0" width="500" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -235,7 +235,7 @@
                                 <rect key="frame" x="0.0" y="160" width="500" height="346"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" id="kzC-b9-2px" customClass="PlacesTableViewCell" customModule="Places_App" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="cardCell" id="kzC-b9-2px" customClass="PlacesTableViewCell" customModule="AccessApp_Places" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="500" height="145.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kzC-b9-2px" id="jrG-aL-vt1">
@@ -402,7 +402,7 @@
         <!--Place Info View Controller-->
         <scene sceneID="gOH-3E-ChG">
             <objects>
-                <viewController storyboardIdentifier="placeInfoController" id="wTm-gQ-gIc" customClass="PlaceInfoViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="placeInfoController" id="wTm-gQ-gIc" customClass="PlaceInfoViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="LxV-VY-ocP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -524,7 +524,7 @@
                                 <rect key="frame" x="16" y="209" width="343" height="365"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" id="Hxm-NX-iEr" userLabel="headerCell" customClass="PlanVisitHeaderCell" customModule="Places_App" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="headerCell" id="Hxm-NX-iEr" userLabel="headerCell" customClass="PlanVisitHeaderCell" customModule="AccessApp_Places" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="343" height="55"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Hxm-NX-iEr" id="ldA-Hb-9Tb">
@@ -604,7 +604,7 @@
                                             <outlet property="day" destination="T6Y-zD-J03" id="jVe-NN-fye"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="planCell" id="lZt-Yy-V3c" customClass="PlanVisitCell" customModule="Places_App" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="planCell" id="lZt-Yy-V3c" customClass="PlanVisitCell" customModule="AccessApp_Places" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="83" width="343" height="48"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lZt-Yy-V3c" id="Vgd-y1-Mnb">
@@ -724,7 +724,7 @@
         <!--Popup View Controller-->
         <scene sceneID="9Dg-XZ-dLO">
             <objects>
-                <viewController storyboardIdentifier="popupVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="Vlo-xa-Rkd" customClass="PopupViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="popupVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="Vlo-xa-Rkd" customClass="PopupViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="346-ap-8qC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1107,7 +1107,7 @@
         <!--Profile View Controller-->
         <scene sceneID="vLe-Ub-4o4">
             <objects>
-                <viewController storyboardIdentifier="profileController" id="0ja-ZN-I3g" customClass="ProfileViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="profileController" id="0ja-ZN-I3g" customClass="ProfileViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="prN-6r-8Xw">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1218,7 +1218,7 @@ Information</string>
         <!--Add Place View Controller-->
         <scene sceneID="xeg-XL-q2c">
             <objects>
-                <viewController id="Q70-CS-icP" customClass="AddPlaceViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Q70-CS-icP" customClass="AddPlaceViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BIV-Ap-X0j">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1453,7 +1453,7 @@ Information</string>
         <!--Scan View Controller-->
         <scene sceneID="Wb0-BC-5EQ">
             <objects>
-                <viewController id="pmN-Ln-k9P" customClass="ScanViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="pmN-Ln-k9P" customClass="ScanViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="vl3-iC-Ymo">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1541,7 +1541,7 @@ Information</string>
         <!--Add Slots View Controller-->
         <scene sceneID="0eN-El-qzf">
             <objects>
-                <viewController storyboardIdentifier="addSlotsVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="Tg8-4Z-e0i" customClass="AddSlotsViewController" customModule="Places_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="addSlotsVC" modalTransitionStyle="crossDissolve" modalPresentationStyle="overCurrentContext" id="Tg8-4Z-e0i" customClass="AddSlotsViewController" customModule="AccessApp_Places" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="sQW-df-Ghc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1827,7 +1827,7 @@ Information</string>
             <color red="0.0" green="0.42399999499320984" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="fade-white">
-            <color red="0.96899998188018799" green="0.96899998188018799" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.96862745098039216" green="0.96862745098039216" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="green">
             <color red="0.0" green="0.80800002813339233" blue="0.62000000476837158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1839,7 +1839,7 @@ Information</string>
             <color red="0.85882352941176465" green="0.8666666666666667" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="primary">
-            <color red="0.2199999988079071" green="0.37299999594688416" blue="0.88599997758865356" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.2196078431372549" green="0.37254901960784315" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="red">
             <color red="1" green="0.071999996900558472" blue="0.071999996900558472" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

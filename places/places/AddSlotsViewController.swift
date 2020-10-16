@@ -65,9 +65,7 @@ class AddSlotsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
+        self.hideKeyboardWhenTappedAround()
         
         let keyboardDoneButtonView = UIToolbar()
         keyboardDoneButtonView.sizeToFit()
@@ -255,10 +253,5 @@ class AddSlotsViewController: UIViewController {
     
     @objc func doneClicked(_ sender: AnyObject) {
       self.view.endEditing(true)
-    }
-    
-    @objc func dismissKeyboard() {
-        //Causes the view (or one of its embedded text fields) to resign the first responder status.
-        view.endEditing(true)
     }
 }
