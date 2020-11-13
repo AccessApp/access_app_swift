@@ -114,14 +114,14 @@ class PopupViewController: UIViewController {
     
     func savePlan() {
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/visit")!
+        let url = URLComponents(string: BASE_URL + "visit")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "POST"
         var body = [String : Any]()
         if slot != nil {
-            body = ["slotId": slot!.id as String, "visitors": Int((button_unfocus?.title(for: .normal))!)!]
+            body = ["slotId": slot!.id as String, "visitors": Int((button_unfocus?.title(for: .normal))!)!, "userId": (userId ?? "userId")]
         } else if visit != nil {
-            body = ["slotId": visit!.slotId as String, "visitors": Int((button_unfocus?.title(for: .normal))!)!]
+            body = ["slotId": visit!.slotId as String, "visitors": Int((button_unfocus?.title(for: .normal))!)!, "userId": (userId ?? "userId")]
         }
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
@@ -153,7 +153,7 @@ class PopupViewController: UIViewController {
     func removeVisit() {
         let userId = UserDefaults.standard.string(forKey: "userId")
         let id = slot?.id != nil ? slot?.id : visit?.slotId != nil ? visit?.slotId : "slotId"
-        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/visit/\(id ?? "slotId")")!
+        let url = URLComponents(string: BASE_URL + "delete-booking/\(userId ?? "userId")/\(id ?? "slotId")")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "DELETE"
         if let token = PlacesViewController.getJwtToken() {

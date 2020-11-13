@@ -162,12 +162,12 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         self.tableView.dataSource = self
         self.tableView.separatorColor = UIColor.clear
         
-//        let jsonData = Data(jsonString.utf8)
-//        let schedule = try? JSONDecoder().decode(Outer.self, from: jsonData)
-//        arrayJson = Array(arrayLiteral: (schedule?.slots.innerArray)!)
-//        print(arrayJson[0].values)
-//        self.tableView.reloadData()
-
+        //        let jsonData = Data(jsonString.utf8)
+        //        let schedule = try? JSONDecoder().decode(Outer.self, from: jsonData)
+        //        arrayJson = Array(arrayLiteral: (schedule?.slots.innerArray)!)
+        //        print(arrayJson[0].values)
+        //        self.tableView.reloadData()
+        
     }
     
     func setupCustomNavBar() {
@@ -191,7 +191,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         
         let fontAttributes = [NSAttributedString.Key.font: UIFont(name: "Rubik-Regular", size: 12.0)!]
         UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
-
+        
     }
     
     @objc func openProfile(_ sender: UIBarButtonItem) {
@@ -202,14 +202,14 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     func setupPlaceCard() {
         if let place = place {
             titleLabel.text = place.name
-            desc.text = place.placeDescription
+            desc.text = place.description
             website.text = place.www
             if place.www.isEmpty {
                 globe.isHidden = true
             } else {
                 globe.isHidden = false
             }
-            placeImage.downloaded(from: BASE_URL + "/api/image/\(place.id)")
+            placeImage.downloaded(from: BASE_URL + "get-image/\(place.id)")
         }
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         placeInfo.isUserInteractionEnabled = true
@@ -286,7 +286,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func getSlots() {
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")/\(self.place?.id ?? "placeId")")!
+        let url = URLComponents(string: BASE_URL + "get-place-slots/\(userId ?? "userId")/\(self.place?.id ?? "placeId")")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "GET"
         if let token = PlacesViewController.getJwtToken() {
@@ -295,20 +295,35 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let decoder = JSONDecoder()
             if let data = data {
-                
-                let schedule = try? JSONDecoder().decode(Outer.self, from: data)
-                self.arrayJson = Array(arrayLiteral: (schedule?.slots.innerArray)!)
-                print(self.arrayJson[0].values)
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
+                   print(JSONString)
                 }
-                
-//                let welcome = try? JSONDecoder().decode(Welcome.self, from: data)
-//                self.places = welcome?.places
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//                }
+                do {
+                    let schedule = try decoder.decode(Outer.self, from: data)
+                    if schedule == nil {
+                        return
+                    }
+                    self.arrayJson = Array(arrayLiteral: (schedule.slots.innerArray))
+                    print(self.arrayJson[0].values)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print(context)
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch {
+                    print("error: ", error)
+                }
             }
             
         })

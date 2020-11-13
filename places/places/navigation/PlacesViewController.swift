@@ -45,19 +45,19 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var button_unfocus = UIButton()
     var searchActive : Bool = false
     var placesFiltered: [Place]? = [Place]()
-    @IBOutlet var searchTF: UITextField! {
-        didSet {
-            searchTF.layer.masksToBounds = true
-            searchTF.layer.cornerRadius = 20
-            searchTF.rightViewMode = .always
-            searchTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: searchTF.frame.height))
-            searchTF.leftViewMode = .always
-            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 17))
-            image.image = UIImage(named: "search")
-            image.contentMode = .scaleAspectFit
-            searchTF.rightView = image
-        }
-    }
+//    @IBOutlet var searchTF: UITextField! {
+//        didSet {
+//            searchTF.layer.masksToBounds = true
+//            searchTF.layer.cornerRadius = 20
+//            searchTF.rightViewMode = .always
+//            searchTF.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: searchTF.frame.height))
+//            searchTF.leftViewMode = .always
+//            let image = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 17))
+//            image.image = UIImage(named: "search")
+//            image.contentMode = .scaleAspectFit
+//            searchTF.rightView = image
+//        }
+//    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,8 +78,8 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.dataSource = self
         self.tableView.separatorColor = UIColor.clear
         setFocus(btn_unfocus: button_unfocus, btn_focus: filterBtns[0])
-        self.searchTF.delegate = self
-        self.searchTF.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+//        self.searchTF.delegate = self
+//        self.searchTF.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,7 +116,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getUserId() {
-        let url = URL(string: BASE_URL + "/api/user")!
+        let url = URL(string: BASE_URL + "generate-user-id")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         if let token = PlacesViewController.getJwtToken() {
@@ -144,20 +144,22 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getAllPlaces() {
+        var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
-        var url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")")!
-        var queryItems = [URLQueryItem]()
-        queryItems.append(URLQueryItem(name: "own", value: "true"))
-        if let typeId = typeId {
-            queryItems.append(URLQueryItem(name: "typeId", value: (typeId.description)))
+        let url = URLComponents(string: BASE_URL + "get-places/\(userId ?? "userId")")!
+        body = ["own": "true"]
+        
+        if typeId != nil {
+            body["typeId"] = typeId?.description
         }
-        if let onlyFav = onlyFav {
-            queryItems.append(URLQueryItem(name: "onlyFavourites", value: (onlyFav.description)))
+        if onlyFav != nil {
+            body["onlyFavourites"] = onlyFav?.description
         }
-        url.queryItems = queryItems
+        
         var request = URLRequest(url: url.url!)
-        print(String(url.url!.absoluteString))
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if let token = PlacesViewController.getJwtToken() {
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
@@ -200,7 +202,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func addRemoveFavourite(id: String?) {
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/favourites/\(id ?? "placeId")")!
+        let url = URLComponents(string: BASE_URL + "change-favourite/\(userId ?? "userId")/\(id ?? "placeId")")!
         print(String(url.url!.absoluteString))
         var request = URLRequest(url: url.url!)
         request.httpMethod = "GET"

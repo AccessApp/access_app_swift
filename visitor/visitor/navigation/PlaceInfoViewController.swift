@@ -21,7 +21,7 @@ class PlaceInfoViewController: UIViewController {
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         self.navigationController?.navigationBar.shadowImage = UIImage()
         let logo = UIImageView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-        logo.downloaded(from: BASE_URL + "/api/image/\(place!.id)")
+        logo.downloaded(from: BASE_URL + "get-image/\(place!.id)")
         logo.layer.masksToBounds = false
         logo.layer.cornerRadius = logo.frame.height / 2
         logo.clipsToBounds = true

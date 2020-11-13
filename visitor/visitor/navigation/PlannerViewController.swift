@@ -79,7 +79,7 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     func getAllVisits() {
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/visits")!
+        let url = URLComponents(string: BASE_URL + "get-bookings/\(userId ?? "userId")")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "GET"
         if let token = PlacesViewController.getJwtToken() {
@@ -91,6 +91,9 @@ class PlannerViewController: UIViewController, UITableViewDelegate, UITableViewD
             if let data = data {
                 
                 let schedule = try? JSONDecoder().decode(VisitResponse.self, from: data)
+                if schedule?.visits == nil {
+                    return
+                }
                 self.arrayJson = Array(arrayLiteral: (schedule?.visits.innerArray)!)
                 print(self.arrayJson[0].values)
                 DispatchQueue.main.async {

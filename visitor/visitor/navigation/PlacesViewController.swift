@@ -112,7 +112,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getUserId() {
-        let url = URL(string: BASE_URL + "/api/user")!
+        let url = URL(string: BASE_URL + "generate-user-id")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         if let token = PlacesViewController.getJwtToken() {
@@ -140,31 +140,53 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getAllPlaces() {
+        var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
-        var url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")")!
-        var queryItems = [URLQueryItem]()
+        let url = URLComponents(string: BASE_URL + "get-places/\(userId ?? "userId")")!
+        
+        body = ["approved": "true"]
         if typeId != nil {
-            queryItems.append(URLQueryItem(name: "typeId", value: (typeId?.description ?? "none")))
+            body["typeId"] = typeId?.description
         }
         if onlyFav != nil {
-            queryItems.append(URLQueryItem(name: "onlyFavourites", value: (onlyFav?.description ?? "none")))
+            body["onlyFavourites"] = onlyFav?.description
         }
-        queryItems.append(URLQueryItem(name: "approved", value: "true"))
-        url.queryItems = queryItems
+        
         var request = URLRequest(url: url.url!)
         print(String(url.url!.absoluteString))
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if let token = PlacesViewController.getJwtToken() {
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
         
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            let decoder = JSONDecoder()
             if let data = data {
-                let welcome = try? JSONDecoder().decode(Welcome.self, from: data)
-                self.places = welcome?.places
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
+                if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
+                   print(JSONString)
+                }
+                do {
+                    let welcome = try decoder.decode(Welcome.self, from: data)
+                    self.places = welcome.places
+                   DispatchQueue.main.async {
+                       self.tableView.reloadData()
+                   }
+                } catch let DecodingError.dataCorrupted(context) {
+                    print(context)
+                } catch let DecodingError.keyNotFound(key, context) {
+                    print("Key '\(key)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.valueNotFound(value, context) {
+                    print("Value '\(value)' not found:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch let DecodingError.typeMismatch(type, context)  {
+                    print("Type '\(type)' mismatch:", context.debugDescription)
+                    print("codingPath:", context.codingPath)
+                } catch {
+                    print("error: ", error)
                 }
             }
             
@@ -181,7 +203,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     func addRemoveFavourite(id: String?) {
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/user/\(userId ?? "userId")/favourites/\(id ?? "placeId")")!
+        let url = URLComponents(string: BASE_URL + "change-favourite/\(userId ?? "userId")/\(id ?? "placeId")")!
         print(String(url.url!.absoluteString))
         var request = URLRequest(url: url.url!)
         request.httpMethod = "GET"

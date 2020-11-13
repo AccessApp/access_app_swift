@@ -56,7 +56,7 @@ class AddSlotsViewController: UIViewController {
         if let maxSlots = maxVisits.text?.int {
             slot.maxSlots = maxSlots
         }
-        savePlan(slot)
+        addSlot(slot)
     }
     @IBAction func closePopup(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
@@ -89,15 +89,15 @@ class AddSlotsViewController: UIViewController {
         
     }
 
-    func savePlan(_ slot: Slots.Slot?) {
+    func addSlot(_ slot: Slots.Slot?) {
         var body = [String : Any]()
+        let userId = UserDefaults.standard.string(forKey: "userId")
         if let slot = slot {
-            body = ["type": slot.type as String, "from": slot.from, "to": slot.to, "maxSlots": slot.maxSlots]
+            body = ["type": slot.type as String, "from": slot.from, "to": slot.to, "maxSlots": slot.maxSlots, "userId": (userId ?? "userId")]
         } else {
             return
         }
-        let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/slot/\(place?.id ?? "placeId")/\(userId ?? "userId")")!
+        let url = URLComponents(string: BASE_URL + "add-slot/\(place?.id ?? "placeId")")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "POST"
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)

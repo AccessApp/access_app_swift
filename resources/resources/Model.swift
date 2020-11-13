@@ -12,7 +12,7 @@
 
 import Foundation
 
-public let BASE_URL = "http://162.13.159.108:3001"
+public let BASE_URL = "https://downloadaccess.app/.netlify/functions/"
 
 // MARK: - Welcome
 public struct Welcome: Codable {
@@ -22,14 +22,14 @@ public struct Welcome: Codable {
 
 // MARK: - Place
 public struct Place: Codable {
-    public var id, name, type, placeDescription: String
+    public var id, name, type, description: String
     public var www: String
     public var location: String
     public var isFavourite, approved: Bool
     
     public enum CodingKeys: String, CodingKey {
         case id, name, type
-        case placeDescription = "description"
+        case description
         case www, location, isFavourite, approved
     }
 }

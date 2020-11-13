@@ -87,10 +87,17 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         }
     }
     
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var addPlaceButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupCustomNavBar()
+        
+        if place != nil {
+            self.setupPlaceInfo()
+        }
         
         self.hideKeyboardWhenTappedAround()
         
@@ -116,6 +123,20 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         UITabBarItem.appearance().setTitleTextAttributes(fontAttributes, for: .normal)
     }
     
+    func setupPlaceInfo() {
+        addPlaceButton.setTitle("Save", for: .normal)
+        titleLabel.text = "Edit place"
+        imageView.downloaded(from: BASE_URL + "get-image/\(place?.id ?? "place id")")
+        placeNameTV.placeholder = ""
+        placeNameTV.text = place?.name
+        locationTV.placeholder = ""
+        locationTV.text = place?.location
+        descTV.placeholder = ""
+        descTV.text = place?.description
+        urlTV.placeholder = ""
+        urlTV.text = place?.www
+    }
+    
     func addPlace() {
         guard let image = imgBase64 else { return }
         guard let name = placeNameTV.text else { return }
@@ -123,10 +144,10 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         guard let location = locationTV.text else { return }
         guard let website = urlTV.text else { return }
         let userId = UserDefaults.standard.string(forKey: "userId")
-        let url = URLComponents(string: BASE_URL + "/api/place/\(userId ?? "userId")")!
+        let url = URLComponents(string: BASE_URL + "add-place/")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "POST"
-        let body: [String : Any] = ["name": name as String, "typeId": 0, "description": desc as String, "www": website as String, "location": location as String, "image": image as String]
+        let body: [String : Any] = ["name": name as String, "typeId": 0, "description": desc as String, "www": website as String, "location": location as String, "image": image as String, "userId": (userId ?? "userId")]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if let token = PlacesViewController.getJwtToken() {

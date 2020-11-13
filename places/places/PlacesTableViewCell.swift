@@ -64,7 +64,7 @@ class PlacesTableViewCell: UITableViewCell {
         didSet {
             if let place = place {
                 titleLabel.text = place.name
-                desc.text = place.placeDescription
+                desc.text = place.description
                 if place.www.isEmpty {
                     globe.isHidden = true
                 } else {
@@ -78,7 +78,7 @@ class PlacesTableViewCell: UITableViewCell {
                     heartIcon.tintColor = UIColor(named: "grey")
                 }
                 website.text = place.www
-                placeImage.downloaded(from: BASE_URL + "/api/image/\(place.id)")
+                placeImage.downloaded(from: BASE_URL + "get-image/\(place.id)")
             }
         }
     }
