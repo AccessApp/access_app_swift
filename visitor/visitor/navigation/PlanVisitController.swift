@@ -285,6 +285,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func getSlots() {
+        self.showLoadingIndicator()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "get-place-slots/\(userId ?? "userId")/\(self.place?.id ?? "placeId")")!
         var request = URLRequest(url: url.url!)
@@ -295,6 +296,9 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
         }
         
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
             let decoder = JSONDecoder()
             if let data = data {
                 if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
@@ -302,9 +306,6 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
                 }
                 do {
                     let schedule = try decoder.decode(Outer.self, from: data)
-                    if schedule == nil {
-                        return
-                    }
                     self.arrayJson = Array(arrayLiteral: (schedule.slots.innerArray))
                     print(self.arrayJson[0].values)
                     DispatchQueue.main.async {

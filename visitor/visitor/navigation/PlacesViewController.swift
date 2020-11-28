@@ -140,6 +140,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getAllPlaces() {
+        self.showLoadingIndicator()
         var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "get-places/\(userId ?? "userId")")!
@@ -161,8 +162,10 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
             let decoder = JSONDecoder()
             if let data = data {
                 if let JSONString = String(data: data, encoding: String.Encoding.utf8) {

@@ -80,6 +80,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         setFocus(btn_unfocus: button_unfocus, btn_focus: filterBtns[0])
 //        self.searchTF.delegate = self
 //        self.searchTF.addTarget(self, action: #selector(self.textFieldDidChange(_:)), for: .editingChanged)
+//        addPlace.addTarget(self, action: #selector(), for: .)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -144,6 +145,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getAllPlaces() {
+        self.showLoadingIndicator()
         var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "get-places/\(userId ?? "userId")")!
@@ -164,8 +166,10 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
             let decoder = JSONDecoder()
             if let data = data {
                 do {

@@ -49,7 +49,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="500" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-pp-39l">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rZD-pp-39l" customClass="CustomButton" customModule="resources">
                                 <rect key="frame" x="100" y="514" width="300" height="60"/>
                                 <color key="backgroundColor" name="primary"/>
                                 <constraints>
@@ -1261,7 +1261,7 @@ Information</string>
                                                     </userDefinedRuntimeAttribute>
                                                 </userDefinedRuntimeAttributes>
                                             </imageView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNc-Ds-5TC">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iNc-Ds-5TC" customClass="CustomButton" customModule="resources">
                                                 <rect key="frame" x="105" y="190" width="165" height="50"/>
                                                 <color key="backgroundColor" name="primary"/>
                                                 <constraints>
@@ -1386,7 +1386,7 @@ Information</string>
                                                     <constraint firstItem="mCy-f1-Gb5" firstAttribute="leading" secondItem="Diz-aP-qal" secondAttribute="leading" id="sx5-8g-uEW"/>
                                                 </constraints>
                                             </view>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2j-7a-khR">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2j-7a-khR" customClass="CustomButton" customModule="resources">
                                                 <rect key="frame" x="37.5" y="646" width="300" height="60"/>
                                                 <color key="backgroundColor" name="primary"/>
                                                 <constraints>
@@ -1667,7 +1667,7 @@ Information</string>
                                                             <action selector="closePopup:" destination="Tg8-4Z-e0i" eventType="touchUpInside" id="qm7-Je-pUX"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2KT-K1-YQm">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2KT-K1-YQm" customClass="CustomButton" customModule="resources">
                                                         <rect key="frame" x="148" y="0.0" width="139" height="42"/>
                                                         <color key="backgroundColor" name="primary"/>
                                                         <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="14"/>

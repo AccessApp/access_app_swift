@@ -110,3 +110,44 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
+
+extension UIViewController {
+  public func alert(title: String = "", message: String) {
+    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    let action = UIAlertAction(title: "Close", style: .default, handler: nil)
+    alertController.addAction(action)
+    self.present(alertController, animated: true, completion: nil)
+  }
+}
+
+extension UIViewController {
+    public func showLoadingIndicator(message: String = "Loading...") {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+
+        let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.style = UIActivityIndicatorView.Style.medium
+        loadingIndicator.startAnimating()
+
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+    }
+    
+    public func hideLoadingIndicator() {
+        if let vc = self.presentedViewController, vc is UIAlertController {
+            dismiss(animated: false, completion: nil)
+        }
+    }
+}
+
+class CustomButton: UIButton {
+
+    override var isHighlighted: Bool {
+        didSet {
+            layer.borderWidth = 3
+            layer.borderColor = UIColor(named: "primary")?.cgColor
+            setTitleColor(isHighlighted ? UIColor(named: "primary") : .white, for: .normal)
+            backgroundColor = isHighlighted ? .white : UIColor(named: "primary")
+        }
+    }
+}

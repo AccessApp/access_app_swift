@@ -138,11 +138,27 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
     }
     
     func addPlace() {
-        guard let image = imgBase64 else { return }
-        guard let name = placeNameTV.text else { return }
-        guard let desc = descTV.text else { return }
-        guard let location = locationTV.text else { return }
-        guard let website = urlTV.text else { return }
+        guard let image = imgBase64 else {
+            alert(title: "Image required", message: "Choose image for the place")
+            return
+        }
+        guard let name = placeNameTV.text else {
+            alert(title: "Place name required", message: "Enter name of the place")
+            return
+        }
+        guard let desc = descTV.text else {
+            alert(title: "Description required", message: "Enter description of the place")
+            return
+        }
+        guard let location = locationTV.text else {
+            alert(title: "Location required", message: "Enter location of the place")
+            return
+        }
+        guard let website = urlTV.text else {
+            alert(title: "Website address required", message: "Enter website address of the place")
+            return
+        }
+        self.showLoadingIndicator()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "add-place/")!
         var request = URLRequest(url: url.url!)
@@ -158,6 +174,9 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             print("REQUEST BODY: \(String(data: request.httpBody!, encoding: String.Encoding(rawValue: String.Encoding.ascii.rawValue))!)")
             print("REQUEST HEADER: \(String(describing: request.allHTTPHeaderFields!))")
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {

@@ -53,6 +53,10 @@ class AddSlotsViewController: UIViewController {
         }
         slot.from = "\(currentServerDate ?? "date") \(startHourTF.text ?? "start hour")"
         slot.to = "\(currentServerDate ?? "date") \(endHourTF.text ?? "end hour")"
+        if maxVisits.text!.isEmpty || maxVisits.text == "0" {
+            alert(title: "Number of visitors required", message: "Enter number of visitors")
+            return
+        }
         if let maxSlots = maxVisits.text?.int {
             slot.maxSlots = maxSlots
         }
@@ -106,8 +110,11 @@ class AddSlotsViewController: UIViewController {
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        
+        self.showLoadingIndicator()
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                 if let responseJSON = responseJSON as? [String: Any] {
