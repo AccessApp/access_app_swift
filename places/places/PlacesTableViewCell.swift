@@ -9,6 +9,11 @@
 import UIKit
 import resources
 
+protocol PlacesCellProtocol {
+    func openWebsite(url: String!)
+    func heartTapped(id: Int!, isFav: Bool!)
+}
+
 class PlacesTableViewCell: UITableViewCell {
     
     // MARK: - Outlets

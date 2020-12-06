@@ -361,8 +361,3 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         self.tableView.reloadData()
     }
 }
-
-protocol PlacesCellProtocol {
-    func openWebsite(url: String!)
-    func heartTapped(id: Int!, isFav: Bool!)
-}

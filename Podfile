@@ -1,5 +1,5 @@
 workspace 'access-app-swift'
-platform :ios, '11.0'
+platform :ios, '13.6'
 use_frameworks!
 
 target 'places' do

@@ -135,6 +135,9 @@ class AddSlotsViewController: UIViewController {
     func setupDatePicker() {
         datePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 200))
         datePicker.datePickerMode = .date
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+        }
         datePicker.addTarget(self, action: #selector(self.dateChanged), for: .allEvents)
         dateTF.inputView = datePicker
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.datePickerDone))
@@ -147,6 +150,9 @@ class AddSlotsViewController: UIViewController {
     func setupStartTimePicker() {
         startTimePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 200))
         startTimePicker.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            startTimePicker.preferredDatePickerStyle = .wheels
+        }
         let locale: Locale = Locale(identifier: "NL")
         startTimePicker.locale = locale
         startTimePicker.addTarget(self, action: #selector(self.startPickerChanged), for: .allEvents)
@@ -161,6 +167,9 @@ class AddSlotsViewController: UIViewController {
     func setupEndTimePicker() {
         endTimePicker = UIDatePicker(frame: CGRect(x: 0, y: 0, width: view.bounds.size.width, height: 200))
         endTimePicker.datePickerMode = .time
+        if #available(iOS 13.4, *) {
+            endTimePicker.preferredDatePickerStyle = .wheels
+        }
         let locale: Locale = Locale(identifier: "NL")
         endTimePicker.locale = locale
         endTimePicker.addTarget(self, action: #selector(self.endPickerChanged), for: .allEvents)

@@ -9,6 +9,12 @@
 import UIKit
 import resources
 
+protocol PlanVisitDelegate: class {
+    func addRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
+    func removeRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
+    func addingEnded(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
+}
+
 class PlanVisitCell: UITableViewCell {
     
     // MARK: - Outlets
@@ -36,6 +42,13 @@ class PlanVisitCell: UITableViewCell {
     @IBOutlet var check: UIImageView!
     
     @IBOutlet var person: UIImageView!
+    
+    var initialCenter: CGFloat?
+    
+    weak var delegate: PlanVisitDelegate?
+    
+    var indexPath: IndexPath?
+    var section: ProfileViewModelAttributeItem?
     
     var slot: Slots.Slot? {
         didSet {
@@ -72,4 +85,48 @@ class PlanVisitCell: UITableViewCell {
         }
     }
     
+    override func awakeFromNib() {
+        addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(addMoreCells(gesture:))))
+    }
+    
+    @objc private func addMoreCells(gesture: UILongPressGestureRecognizer) {
+        if (self.indexPath != nil) {
+            if gesture.state == .began {
+                guard let view = gesture.view else {
+                    return
+                }
+                initialCenter = view.center.y
+            }
+            else if gesture.state == .changed {
+                
+                guard let view = gesture.view else {
+                    return
+                }
+                
+                let newCenter = gesture.location(in: view.superview).y
+                
+                if newCenter - initialCenter! >= 48 {
+                    initialCenter! += 48
+                    delegate?.addRow(indexPath: indexPath, section: section)
+                } else if newCenter - initialCenter! <= -48 {
+                    initialCenter! -= 48
+                    delegate?.removeRow(indexPath: indexPath, section: section)
+                }
+                print(initialCenter)
+                print(newCenter)
+            }
+            else if gesture.state == .ended {
+                PlaceInfoViewController.counter = -1
+                delegate?.addingEnded(indexPath: indexPath, section: section)
+            }
+        }
+    }
+    
+    static var nib: UINib {
+        return UINib(nibName: identifier, bundle: nil)
+    }
+    
+    static var identifier: String {
+        return String(describing: self)
+    }
 }

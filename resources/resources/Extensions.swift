@@ -54,7 +54,7 @@ extension UITextView: UITextViewDelegate {
             let labelY = self.textContainerInset.top - 2
             let labelWidth = self.frame.width - (labelX * 2)
             let labelHeight = placeholderLabel.frame.height
-
+            
             placeholderLabel.frame = CGRect(x: labelX, y: labelY, width: labelWidth, height: labelHeight)
         }
     }
@@ -112,23 +112,29 @@ extension UIViewController {
 }
 
 extension UIViewController {
-  public func alert(title: String = "", message: String) {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    let action = UIAlertAction(title: "Close", style: .default, handler: nil)
-    alertController.addAction(action)
-    self.present(alertController, animated: true, completion: nil)
-  }
+    public func alert(title: String = "", message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Close", style: .default, handler: nil)
+        alertController.addAction(action)
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
 extension UIViewController {
     public func showLoadingIndicator(message: String = "Loading...") {
+        DispatchQueue.main.async {
+            if let vc = self.presentedViewController, vc is UIAlertController {
+                return
+            }
+        }
         let alert = UIAlertController(title: nil, message: message, preferredStyle: .alert)
-
+        
         let loadingIndicator = UIActivityIndicatorView(frame: CGRect(x: 10, y: 5, width: 50, height: 50))
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.style = UIActivityIndicatorView.Style.medium
         loadingIndicator.startAnimating()
-
+        
+        
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
     }
@@ -140,14 +146,36 @@ extension UIViewController {
     }
 }
 
-class CustomButton: UIButton {
+extension Dictionary {
+    subscript(i: Int) -> (key: Key, value: Value) {
+        get {
+            return self[index(startIndex, offsetBy: i)]
+        }
+    }
+}
 
+class CustomButton: UIButton {
+    
     override var isHighlighted: Bool {
         didSet {
             layer.borderWidth = 3
             layer.borderColor = UIColor(named: "primary")?.cgColor
             setTitleColor(isHighlighted ? UIColor(named: "primary") : .white, for: .normal)
             backgroundColor = isHighlighted ? .white : UIColor(named: "primary")
+        }
+    }
+}
+
+public class Helpers {
+    
+    public static func daySuffix(from date: Date) -> String {
+        let calendar = Calendar.current
+        let dayOfMonth = calendar.component(.day, from: date)
+        switch dayOfMonth {
+        case 1, 21, 31: return "st"
+        case 2, 22: return "nd"
+        case 3, 23: return "rd"
+        default: return "th"
         }
     }
 }

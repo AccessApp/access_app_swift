@@ -20,9 +20,8 @@
 		2B554B5124E3E9D600A7B1C9 /* ScanViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4924E3E89E00A7B1C9 /* ScanViewController.swift */; };
 		2B554B5424E3E9D600A7B1C9 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B4C24E3E89E00A7B1C9 /* ProfileViewController.swift */; };
 		2B554B5D24E3EA5900A7B1C9 /* PlacesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5824E3EA5700A7B1C9 /* PlacesTableViewCell.swift */; };
-		2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderCell.swift */; };
+		2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderView.swift */; };
 		2B554B5F24E3EA5900A7B1C9 /* PopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5B24E3EA5800A7B1C9 /* PopupViewController.swift */; };
-		2B554B6024E3EA5900A7B1C9 /* VisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5C24E3EA5900A7B1C9 /* VisitCell.swift */; };
 		2B554B6124E3EA5900A7B1C9 /* PlanVisitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B554B5A24E3EA5800A7B1C9 /* PlanVisitCell.swift */; };
 		2B554B6524E3ED5700A7B1C9 /* jwt-key.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B3F24E3E68200A7B1C9 /* jwt-key.txt */; };
 		2B554B6624E3ED5700A7B1C9 /* Rubik-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2B554B4124E3E68A00A7B1C9 /* Rubik-Bold.ttf */; };
@@ -31,6 +30,7 @@
 		2B59251E25083F4800F0FED0 /* AddSlotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */; };
 		2B5925202508AE9E00F0FED0 /* resources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B59251F2508AE9E00F0FED0 /* resources.framework */; };
 		2B5925212508AE9E00F0FED0 /* resources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2B59251F2508AE9E00F0FED0 /* resources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B984BBB257260C5004E0CCC /* PlanVisitHeaderView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B984BBA257260C5004E0CCC /* PlanVisitHeaderView.xib */; };
 		2BCF77552510B49C002D8A87 /* PlaceInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BCF77542510B49C002D8A87 /* PlaceInfoViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -88,13 +88,13 @@
 		2B554B4824E3E89E00A7B1C9 /* AddPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewController.swift; sourceTree = "<group>"; };
 		2B554B4924E3E89E00A7B1C9 /* ScanViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewController.swift; sourceTree = "<group>"; };
 		2B554B4C24E3E89E00A7B1C9 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
-		2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitHeaderCell.swift; sourceTree = "<group>"; };
+		2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitHeaderView.swift; sourceTree = "<group>"; };
 		2B554B5824E3EA5700A7B1C9 /* PlacesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacesTableViewCell.swift; sourceTree = "<group>"; };
 		2B554B5A24E3EA5800A7B1C9 /* PlanVisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanVisitCell.swift; sourceTree = "<group>"; };
 		2B554B5B24E3EA5800A7B1C9 /* PopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupViewController.swift; sourceTree = "<group>"; };
-		2B554B5C24E3EA5900A7B1C9 /* VisitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCell.swift; sourceTree = "<group>"; };
 		2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSlotsViewController.swift; sourceTree = "<group>"; };
 		2B59251F2508AE9E00F0FED0 /* resources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = resources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B984BBA257260C5004E0CCC /* PlanVisitHeaderView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PlanVisitHeaderView.xib; sourceTree = "<group>"; };
 		2BCF77542510B49C002D8A87 /* PlaceInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlaceInfoViewController.swift; sourceTree = "<group>"; };
 		672A7D4DA530A7BC41B10D09 /* Pods-places.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-places.debug.xcconfig"; path = "Target Support Files/Pods-places/Pods-places.debug.xcconfig"; sourceTree = "<group>"; };
 		979ACB5F42381B8C13B513E7 /* Pods-places.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-places.release.xcconfig"; path = "Target Support Files/Pods-places/Pods-places.release.xcconfig"; sourceTree = "<group>"; };
@@ -178,8 +178,8 @@
 				2B59251D25083F4800F0FED0 /* AddSlotsViewController.swift */,
 				2B554B5B24E3EA5800A7B1C9 /* PopupViewController.swift */,
 				2B554B5A24E3EA5800A7B1C9 /* PlanVisitCell.swift */,
-				2B554B5C24E3EA5900A7B1C9 /* VisitCell.swift */,
-				2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderCell.swift */,
+				2B554B5524E3EA5500A7B1C9 /* PlanVisitHeaderView.swift */,
+				2B984BBA257260C5004E0CCC /* PlanVisitHeaderView.xib */,
 				2B554B5824E3EA5700A7B1C9 /* PlacesTableViewCell.swift */,
 				2B554B4524E3E74300A7B1C9 /* Main.storyboard */,
 				2B554B1624E3E2A000A7B1C9 /* Assets.xcassets */,
@@ -296,7 +296,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1220;
 				ORGANIZATIONNAME = accessapp;
 				TargetAttributes = {
 					2B554B0924E3E28D00A7B1C9 = {
@@ -341,6 +341,7 @@
 				2B554B6624E3ED5700A7B1C9 /* Rubik-Bold.ttf in Resources */,
 				2B554B6724E3ED5700A7B1C9 /* Rubik-Medium.ttf in Resources */,
 				2B554B6824E3ED5700A7B1C9 /* Rubik-Regular.ttf in Resources */,
+				2B984BBB257260C5004E0CCC /* PlanVisitHeaderView.xib in Resources */,
 				2B554B1A24E3E2A000A7B1C9 /* LaunchScreen.storyboard in Resources */,
 				2B554B3E24E3E45600A7B1C9 /* GoogleService-Info.plist in Resources */,
 				2B554B1724E3E2A000A7B1C9 /* Assets.xcassets in Resources */,
@@ -412,13 +413,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B554B5F24E3EA5900A7B1C9 /* PopupViewController.swift in Sources */,
-				2B554B6024E3EA5900A7B1C9 /* VisitCell.swift in Sources */,
 				2B59251E25083F4800F0FED0 /* AddSlotsViewController.swift in Sources */,
 				2B554B4F24E3E9D600A7B1C9 /* PlacesViewController.swift in Sources */,
 				2B554B5024E3E9D600A7B1C9 /* AddPlaceViewController.swift in Sources */,
 				2B554B5124E3E9D600A7B1C9 /* ScanViewController.swift in Sources */,
 				2BCF77552510B49C002D8A87 /* PlaceInfoViewController.swift in Sources */,
-				2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderCell.swift in Sources */,
+				2B554B5E24E3EA5900A7B1C9 /* PlanVisitHeaderView.swift in Sources */,
 				2B554B5D24E3EA5900A7B1C9 /* PlacesTableViewCell.swift in Sources */,
 				2B554B5424E3E9D600A7B1C9 /* ProfileViewController.swift in Sources */,
 				2B554B6124E3EA5900A7B1C9 /* PlanVisitCell.swift in Sources */,
@@ -503,6 +503,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -563,6 +564,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -597,7 +599,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -618,7 +620,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 16;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = V7W7JQFZ5K;
 				INFOPLIST_FILE = places/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

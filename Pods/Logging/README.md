@@ -46,7 +46,7 @@ logger.info("Hello World!")
 #### Default `Logger` behavior
 
 `SwiftLog` provides for very basic console logging out-of-the-box by way of `StreamLogHandler`. It is possible to switch the default output to `stderr` like so:
-```
+```swift
 LoggingSystem.bootstrap(StreamLogHandler.standardError)
 ```
 
@@ -54,17 +54,25 @@ LoggingSystem.bootstrap(StreamLogHandler.standardError)
 
 For further information, please check the [API documentation][api-docs].
 
+<a name="backends"></a>
 #### Selecting a logging backend implementation (applications only)
 
 As the API has just launched, not many implementations exist yet. If you are interested in implementing one see the "Implementation considerations" section below explaining how to do so. List of existing SwiftLog API compatible libraries:
 
-- [IBM-Swift/HeliumLogger](https://github.com/IBM-Swift/HeliumLogger) - a logging backend widely used in the Kitura ecosystem
-- [ianpartridge/swift-log-**syslog**](https://github.com/ianpartridge/swift-log-syslog) – a [syslog](https://en.wikipedia.org/wiki/Syslog) backend
-- [Adorkable/swift-log-**format-and-pipe**](https://github.com/Adorkable/swift-log-format-and-pipe) – a backend that allows customization of the output format and the resulting destination
-- [chrisaljoudi/swift-log-**oslog**](https://github.com/chrisaljoudi/swift-log-oslog) - an OSLog [Unified Logging](https://developer.apple.com/documentation/os/logging) backend for use on Apple platforms
-- [Brainfinance/StackdriverLogging](https://github.com/Brainfinance/StackdriverLogging) - a structured JSON logging backend for use on Google Cloud Platform with the [Stackdriver logging agent](https://cloud.google.com/logging/docs/agent) 
-- [vapor/console-kit](https://github.com/vapor/console-kit/) - print log messages to a terminal with stylized ([ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)) output
-- Your library? [Get in touch!](https://forums.swift.org/c/server)
+| Repository | Handler Description|
+| ----------- | ----------- |
+| [IBM-Swift/HeliumLogger](https://github.com/IBM-Swift/HeliumLogger)  |a logging backend widely used in the Kitura ecosystem |
+| [ianpartridge/swift-log-**syslog**](https://github.com/ianpartridge/swift-log-syslog) | a [syslog](https://en.wikipedia.org/wiki/Syslog) backend|
+| [Adorkable/swift-log-**format-and-pipe**](https://github.com/Adorkable/swift-log-format-and-pipe) | a backend that allows customization of the output format and the resulting destination |
+| [chrisaljoudi/swift-log-**oslog**](https://github.com/chrisaljoudi/swift-log-oslog) | an OSLog [Unified Logging](https://developer.apple.com/documentation/os/logging) backend for use on Apple platforms. **Important Note:** we recommend using os_log directly as decribed [here](https://developer.apple.com/documentation/os/logging). Using os_log through swift-log using this backend will be less efficient and will also prevent specifying the privacy of the message. The backend always uses `%{public}@` as the format string and eagerly converts all string interpolations to strings.  This has two drawbacks: 1. the static components of the string interpolation would be eagerly copied by the unified logging system, which will result in loss of performance. 2. It makes all messages public, which changes the default privacy policy of os_log, and doesn't allow specifying fine-grained privacy of sections of the message.  In a separate on-going work, Swift APIs for os_log are being improved and made to align closely with swift-log APIs. References: [Unifying Logging Levels](https://forums.swift.org/t/custom-string-interpolation-and-compile-time-interpretation-applied-to-logging/18799), [Making os_log accept string interpolations using compile-time interpretation](https://forums.swift.org/t/logging-levels-for-swifts-server-side-logging-apis-and-new-os-log-apis/20365). |
+| [Brainfinance/StackdriverLogging](https://github.com/Brainfinance/StackdriverLogging) | a structured JSON logging backend for use on Google Cloud Platform with the [Stackdriver logging agent](https://cloud.google.com/logging/docs/agent) | 
+| [vapor/console-kit](https://github.com/vapor/console-kit/) | print log messages to a terminal with stylized ([ANSI](https://en.wikipedia.org/wiki/ANSI_escape_code)) output |
+| [neallester/swift-log-testing](https://github.com/neallester/swift-log-testing) | provides access to log messages for use in assertions (within test targets) | 
+| [wlisac/swift-log-slack](https://github.com/wlisac/swift-log-slack)  | a logging backend that sends critical log messages to Slack |
+| [NSHipster/swift-log-github-actions](https://github.com/NSHipster/swift-log-github-actions) | a logging backend that translates logging messages into [workflow commands for GitHub Actions](https://help.github.com/en/actions/reference/workflow-commands-for-github-actions). |
+| [stevapple/swift-log-telegram](https://github.com/stevapple/swift-log-telegram) | a logging backend that sends log messages to any Telegram chat (Inspired by and forked from [wlisac/swift-log-slack](https://github.com/wlisac/swift-log-slack)) |
+| [jagreenwood/swift-log-datadog](https://github.com/jagreenwood/swift-log-datadog)  | a logging backend which sends log messages to the [Datadog](https://www.datadoghq.com/log-management/) log management service |
+| Your library? | [Get in touch!](https://forums.swift.org/c/server) |
 
 ## What is an API package?
 
@@ -174,6 +182,16 @@ However, in special cases, it is acceptable that a `LogHandler` provides some gl
 
 `LogHandler`s do not control if a message should be logged or not. `Logger` will only invoke the `log` function of a `LogHandler` if `Logger` determines that a log message should be emitted given the configured log level.
 
+## Source vs Label
+
+A `Logger` carries an (immutable) `label` and each log message carries a `source` parameter (since SwiftLog 1.3.0). The `Logger`'s label
+identifies the creator of the `Logger`. If you are using structured logging by preserving metadata across multiple modules, the `Logger`'s
+`label` is not a good way to identify where a log message originated from as it identifies the creator of a `Logger` which is often passed
+around between libraries to preserve metadata and the like.
+
+If you want to filter all log messages originating from a certain subsystem, filter by `source` which defaults to the module that is emitting the
+log message.
+
 ## SwiftLog for Swift 4
 <a name="help-i-need-swift-4"></a>
 
@@ -193,16 +211,22 @@ In most cases, there is only one thing you need to remember: Always use _string 
 
 Good:
 
-    logger.info("hello world")
+```swift
+logger.info("hello world")
+```
 
 Bad:
 
-    let message = "hello world"
-    logger.info(message)
+```swift
+let message = "hello world"
+logger.info(message)
+```
 
 If you have a `String` that you received from elsewhere, please use
 
-    logger.info("\(stringIAlreadyHave)")
+```swift
+logger.info("\(stringIAlreadyHave)")
+```
 
 For more details, have a look in the next section.
 
@@ -224,8 +248,10 @@ Swift 4.0 & 4.1 don't support `@inlinable`, so SwiftLog 0 can't use them.
 Because all Swift 4 versions don't have a (non-deprecated) mechanism for a type to be `ExpressibleByStringInterpolation` we couldn't make `Logger.Message` expressible by string literals. Unfortunately, the most basic form of our logging API is `logger.info("Hello \(world)")`. For this to work however, `"Hello \(world)"` needs to be accepted and because we can't make `Logger.Message` `ExpressibleByStringInterpolation` we added an overload for all the logging methods to also accept `String`. In most cases, you won't even notice that with SwiftLog 0 you're creating a `String` (which is then transformed to a `Logger.Message`) and with SwiftLog 1 you're creating a `Logger.Message` directly. That is because both `String` and `Logger.Message` will accept all forms of string literals and string interpolations.
 Unfortunately, there is code that will make this seemingly small difference visible. If you write
 
-    let message = "Hello world"
-    logger.info(message)
+```swift
+let message = "Hello world"
+logger.info(message)
+```
 
 then this will only work in SwiftLog 0 and not in SwiftLog 1. Why? Because SwiftLog 1 will want a `Logger.Message` but `let message = "Hello world"` will make `message` to be of type `String` and in SwiftLog 1, the logging methods don't accept `String`s.
 
@@ -233,8 +259,10 @@ So if you intend to be compatible with SwiftLog 0 and 1 at the same time, please
 
 In the case that you already have a `String` handy that you want to log, don't worry at all, just use
 
-    let message = "Hello world"
-    logger.info("\(message)")
+```swift
+let message = "Hello world"
+logger.info("\(message)")
+```
 
 and again, you will be okay with SwiftLog 0 and 1.
 

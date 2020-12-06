@@ -56,9 +56,11 @@
 /// `LogHandlerWithGlobalLogLevelOverride.overrideGlobalLogLevel = .debug`, for example.
 ///
 /// ```swift
+/// import class Foundation.NSLock
+///
 /// public struct LogHandlerWithGlobalLogLevelOverride: LogHandler {
 ///     // the static properties hold the globally overridden log level (if overridden)
-///     private static let overrideLock = Lock()
+///     private static let overrideLock = NSLock()
 ///     private static var overrideLogLevel: Logger.Level? = nil
 ///
 ///     // this holds the log level if not overridden
@@ -74,9 +76,9 @@
 ///     public var logLevel: Logger.Level {
 ///         // when we get asked for the log level, we check if it was globally overridden or not
 ///         get {
-///             return LogHandlerWithGlobalLogLevelOverride.overrideLock.withLock {
-///                 return LogHandlerWithGlobalLogLevelOverride.overrideLogLevel
-///             } ?? self._logLevel
+///             LogHandlerWithGlobalLogLevelOverride.overrideLock.lock()
+///             defer { LogHandlerWithGlobalLogLevelOverride.overrideLock.unlock() }
+///             return LogHandlerWithGlobalLogLevelOverride.overrideLogLevel ?? self._logLevel
 ///         }
 ///         // we set the log level whenever we're asked (note: this might not have an effect if globally
 ///         // overridden)
@@ -86,7 +88,7 @@
 ///     }
 ///
 ///     public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?,
-///              file: String, function: String, line: UInt) {
+///                     source: String, file: String, function: String, line: UInt) {
 ///         // [...]
 ///     }
 ///
@@ -101,9 +103,9 @@
 ///
 ///     // this is the function to globally override the log level, it is not part of the `LogHandler` protocol
 ///     public static func overrideGlobalLogLevel(_ logLevel: Logger.Level) {
-///         LogHandlerWithGlobalLogLevelOverride.overrideLock.withLock {
-///             LogHandlerWithGlobalLogLevelOverride.overrideLogLevel = logLevel
-///         }
+///         LogHandlerWithGlobalLogLevelOverride.overrideLock.lock()
+///         defer { LogHandlerWithGlobalLogLevelOverride.overrideLock.unlock() }
+///         LogHandlerWithGlobalLogLevelOverride.overrideLogLevel = logLevel
 ///     }
 /// }
 /// ```
@@ -120,13 +122,22 @@ public protocol LogHandler {
     ///     - level: The log level the message was logged at.
     ///     - message: The message to log. To obtain a `String` representation call `message.description`.
     ///     - metadata: The metadata associated to this log message.
+    ///     - source: The source where the log message originated, for example the logging module.
     ///     - file: The file the log message was emitted from.
     ///     - function: The function the log line was emitted from.
     ///     - line: The line the log message was emitted from.
     func log(level: Logger.Level,
              message: Logger.Message,
              metadata: Logger.Metadata?,
-             file: String, function: String, line: UInt)
+             source: String,
+             file: String,
+             function: String,
+             line: UInt)
+
+    /// SwiftLog 1.0 compatibility method. Please do _not_ implement, implement
+    /// `log(level:message:metadata:source:file:function:line:)` instead.
+    @available(*, deprecated, renamed: "log(level:message:metadata:source:file:function:line:)")
+    func log(level: Logging.Logger.Level, message: Logging.Logger.Message, metadata: Logging.Logger.Metadata?, file: String, function: String, line: UInt)
 
     /// Add, remove, or change the logging metadata.
     ///
@@ -150,4 +161,28 @@ public protocol LogHandler {
     ///         that means a change in log level on a particular `LogHandler` might not be reflected in any
     ///        `LogHandler`.
     var logLevel: Logger.Level { get set }
+}
+
+extension LogHandler {
+    @available(*, deprecated, message: "You should implement this method instead of using the default implementation")
+    public func log(level: Logger.Level,
+                    message: Logger.Message,
+                    metadata: Logger.Metadata?,
+                    source: String,
+                    file: String,
+                    function: String,
+                    line: UInt) {
+        self.log(level: level, message: message, metadata: metadata, file: file, function: function, line: line)
+    }
+
+    @available(*, deprecated, renamed: "log(level:message:metadata:source:file:function:line:)")
+    public func log(level: Logging.Logger.Level, message: Logging.Logger.Message, metadata: Logging.Logger.Metadata?, file: String, function: String, line: UInt) {
+        self.log(level: level,
+                 message: message,
+                 metadata: metadata,
+                 source: Logger.currentModule(filePath: file),
+                 file: file,
+                 function: function,
+                 line: line)
+    }
 }

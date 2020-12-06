@@ -138,10 +138,10 @@ public struct Outer: Codable {
     public let slots: Slots
 }
 
-public struct Slots: Codable {
+public struct Slots: Codable, Equatable {
     public var innerArray: [String: [Slot]]
     
-    public struct Slot: Codable {
+    public struct Slot: Codable, Equatable {
         public var id: String
         public var type: String
         public var from: String

@@ -14,87 +14,93 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var place: Place?
     var arrayJson = Array<[String: [Slots.Slot]]>()
-    let data = [[0, 1, 2], [3, 4, 5], [6, 7], [12, 10], [1, 8], [44, 30, 8]]
-    let jsonString = """
-    {
-      "slots": {
-        "02.06.2020": [
-          {
-            "id": "slot_id_0_1",
-            "type": "Standard",
-            "from": "10:00",
-            "to": "11:00",
-            "occupiedSlots": 0,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          },
-          {
-            "id": "slot_id_1_1",
-            "type": "Priority",
-            "from": "11:00",
-            "to": "12:00",
-            "occupiedSlots": 5,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          },
-          {
-            "id": "slot_id_2_1",
-            "type": "Priority",
-            "from": "12:00",
-            "to": "13:00",
-            "occupiedSlots": 1,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          },
-          {
-            "id": "slot_id_3_1",
-            "type": "Standard",
-            "from": "13:00",
-            "to": "14:00",
-            "occupiedSlots": 2,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          },
-          {
-            "id": "slot_id_4_1",
-            "type": "Priority",
-            "from": "14:00",
-            "to": "15:00",
-            "occupiedSlots": 3,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          },
-          {
-            "id": "slot_id_5_1",
-            "type": "Priority",
-            "from": "15:00",
-            "to": "16:00",
-            "occupiedSlots": 0,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          }
-        ],
-        "02.06.2021": [
-          {
-            "id": "slot_id_0_1",
-            "type": "Standard",
-            "from": "10:00",
-            "to": "11:00",
-            "occupiedSlots": 0,
-            "maxSlots": 20,
-            "isPlanned": false,
-            "friends": 0
-          }
-        ]
-      }
-    }
-    """
+//    let data = [[0, 1, 2], [3, 4, 5], [6, 7], [12, 10], [1, 8], [44, 30, 8]]
+//    let jsonString = """
+//    {
+//      "slots": {
+//        "02.06.2020": [
+//          {
+//            "id": "slot_id_0_1",
+//            "type": "Standard",
+//            "from": "10:00",
+//            "to": "11:00",
+//            "occupiedSlots": 0,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          },
+//          {
+//            "id": "slot_id_1_1",
+//            "type": "Priority",
+//            "from": "11:00",
+//            "to": "12:00",
+//            "occupiedSlots": 5,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          },
+//          {
+//            "id": "slot_id_2_1",
+//            "type": "Priority",
+//            "from": "12:00",
+//            "to": "13:00",
+//            "occupiedSlots": 1,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          },
+//          {
+//            "id": "slot_id_3_1",
+//            "type": "Standard",
+//            "from": "13:00",
+//            "to": "14:00",
+//            "occupiedSlots": 2,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          },
+//          {
+//            "id": "slot_id_4_1",
+//            "type": "Priority",
+//            "from": "14:00",
+//            "to": "15:00",
+//            "occupiedSlots": 3,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          },
+//          {
+//            "id": "slot_id_5_1",
+//            "type": "Priority",
+//            "from": "15:00",
+//            "to": "16:00",
+//            "occupiedSlots": 0,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          }
+//        ],
+//        "02.06.2021": [
+//          {
+//            "id": "slot_id_0_1",
+//            "type": "Standard",
+//            "from": "10:00",
+//            "to": "11:00",
+//            "occupiedSlots": 0,
+//            "maxSlots": 20,
+//            "isPlanned": false,
+//            "friends": 0
+//          }
+//        ]
+//      }
+//    }
+//    """
+//
+//    let jsonData = Data(jsonString.utf8)
+//    let schedule = try? JSONDecoder().decode(Outer.self, from: jsonData)
+//    arrayJson = Array(arrayLiteral: (schedule?.slots.innerArray)!)
+//    print(arrayJson[0].values)
+//    self.tableView.reloadData()
     
     var dataTask: URLSessionDataTask?
     let defaultSession = URLSession(configuration: .default)
@@ -302,7 +308,7 @@ class PlanVisitController: UIViewController, UITableViewDelegate, UITableViewDat
             let decoder = JSONDecoder()
             if let data = data {
                 if let JSONString = String(data: data, encoding: String.Encoding.utf8) {
-                   print(JSONString)
+                    print(JSONString)
                 }
                 do {
                     let schedule = try decoder.decode(Outer.self, from: data)
