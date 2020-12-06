@@ -13,7 +13,8 @@ import SafariServices
 class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, HeaderViewDelegate, PlanVisitDelegate {
     
     var place: Place?
-    var items = [ProfileViewModelAttributeItem : [Slots.Slot]]()
+    var items = [ItemHeader]()
+    var tempHeaders = [ItemHeader]()
     var tempSlots = [Slots.Slot]()
     
     var dataTask: URLSessionDataTask?
@@ -23,7 +24,8 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBOutlet var editPlace: UIImageView!
     @IBOutlet var globe: UIImageView!
     
-    static var counter = 0
+    static var slotsCounter = 0
+    static var headersCounter = 0
     
     @IBOutlet weak var containerView: UIView! {
         didSet {
@@ -157,29 +159,28 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let item = Array(items)[section]
+        let item = items[section]
         
-        guard item.key.isCollapsible else {
-            return item.value.count
+        guard item.isCollapsible else {
+            return item.slots.count
         }
         
-        if item.key.isCollapsed {
+        if item.isCollapsed {
             return 0
         } else {
-            return item.value.count
+            return item.slots.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = Array(items)[indexPath.section]
+        let item = items[indexPath.section]
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PlanVisitCell.identifier, for: indexPath) as? PlanVisitCell else {
             fatalError("No CardTableViewCell for cardCell id")
         }
-        cell.slot = item.value[indexPath.row]
+        cell.slot = item.slots[indexPath.row]
         if (indexPath.row == tableView.numberOfRows(inSection: indexPath.section) - 1) {
             cell.indexPath = indexPath
         }
-        cell.section = item.key
         cell.delegate = self
         return cell
     }
@@ -190,9 +191,9 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let headerView = tableView.dequeueReusableHeaderFooterView(withIdentifier: PlanVisitHeaderView.identifier) as? PlanVisitHeaderView {
-            let item = Array(items)[section]
+            let item = items[section]
             
-            headerView.item = item.key
+            headerView.item = item
             headerView.section = section
             headerView.delegate = self
             let backgroundView = UIView(frame: headerView.bounds)
@@ -209,7 +210,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         vc.modalPresentationStyle = .overCurrentContext
         vc.place = self.place
         let item = Array(items)[indexPath.section]
-        vc.slot = item.value[indexPath.row]
+        vc.slot = item.slots[indexPath.row]
         vc.onDoneBlock = { result in
             self.getSlots()
         }
@@ -223,8 +224,8 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            let index = items.index(items.startIndex, offsetBy: indexPath.section)
-            items[items[index].key]?.remove(at: indexPath.row)
+            self.deleteSlotServer(items[indexPath.section].slots[indexPath.row])
+            items[indexPath.section].slots.remove(at: indexPath.row)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
@@ -248,12 +249,17 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
                 let decoder = JSONDecoder()
                 do {
                     let schedule = try decoder.decode(Outer.self, from: data)
-                    
+                    let string1 = String(data: data, encoding: String.Encoding.utf8) ?? "Data could not be printed"
+                    print(string1)
+                    var serverItems = [ItemHeader]()
+                    var dateKeys: [String] = []
                     for (name, slots) in schedule.slots.innerArray {
-                        let section = ProfileViewModelAttributeItem.init(sectionTitle: name, isCollapsed: true)
-                        self.items[section] = slots
+                        let section = ItemHeader.init(sectionTitle: name, isCollapsed: true)
+                        section.slots = slots
+                        dateKeys.append(name)
+                        serverItems.append(section)
                     }
-                    print("Done")
+                    self.items = self.sortList(dateKeys, serverItems)
                 } catch let DecodingError.dataCorrupted(context) {
                     print(context)
                 } catch let DecodingError.keyNotFound(key, context) {
@@ -268,8 +274,6 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
                 } catch {
                     print("error: ", error)
                 }
-                
-                print(data)
                 DispatchQueue.main.async {
                     self.hideLoadingIndicator()
                     
@@ -286,13 +290,46 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         dataTask?.resume()
     }
     
+    func sortList(_ dateKeys: [String], _ serverItems: [ItemHeader]) -> [ItemHeader] {
+        var arrayOfDates: [Date] = []
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+
+        for dateString in dateKeys {
+            let date = dateFormatter.date(from: dateString)
+            if let date = date{
+                arrayOfDates.append(date)
+            }
+        }
+
+        arrayOfDates.sort(by: {$0.timeIntervalSince1970 < $1.timeIntervalSince1970})
+
+        var result: [String] = []
+
+        for date in arrayOfDates{
+            result.append(dateFormatter.string(from: date))
+        }
+        var newItems = [ItemHeader]()
+        for date in result {
+            let object = serverItems.filter{ $0.sectionTitle == date }.first
+            newItems.append(object!)
+        }
+        return newItems
+    }
+    
+    
+    /// Toggle header/section when tapped, expand or collapse
+    /// - Parameters:
+    ///   - header: The clicked headers
+    ///   - section: The header's index
     func toggleSection(header: PlanVisitHeaderView, section: Int) {
-        let item = Array(items)[section]
-        if item.key.isCollapsible {
+        let item = items[section]
+        if item.isCollapsible {
             
             // Toggle collapse
-            let collapsed = !item.key.isCollapsed
-            item.key.isCollapsed = collapsed
+            let collapsed = !item.isCollapsed
+            item.isCollapsed = collapsed
             
             // Adjust the number of the rows inside the section
             self.tableView?.beginUpdates()
@@ -301,36 +338,20 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    func addHeaderRow(indexPath: IndexPath?, section: Int) {
-        let serverFormatter = DateFormatter()
-        serverFormatter.dateFormat = "dd.MM.yyyy"
-        let calendar = Calendar.current
-        let lastDate = calendar.date(byAdding: .day, value: 1, to: serverFormatter.date(from: Array(items)[section].key.sectionTitle)!)
-        let selectedSection = ProfileViewModelAttributeItem(sectionTitle: serverFormatter.string(from: lastDate!), isCollapsed: true)
-        let newSlots = Array(items)[section].value
-        items[selectedSection] = newSlots
-        var indexPathArray = [IndexPath]()
-        let index = Array(items.keys).firstIndex(of: selectedSection)
-        for i in 0...newSlots.count - 1 {
-            indexPathArray.append(IndexPath(row: i, section: index!))
+    /// Adds row from top to bottom when dragging with finger, triggered from UILongPressRecognizer()
+    /// - Parameter indexPath: The indexPath of the selected row
+    func addRow(indexPath: IndexPath) {
+        if PlaceInfoViewController.slotsCounter == -1 {
+            PlaceInfoViewController.slotsCounter = 0
         }
-        self.tableView?.beginUpdates()
-        self.tableView.insertSections(IndexSet(integer: items.count - 1), with: .fade)
-        self.tableView?.endUpdates()
-    }
-    
-    func addRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?) {
-        if PlaceInfoViewController.counter == -1 {
-            PlaceInfoViewController.counter = 0
-        }
-        let firstSlot = Array(items)[indexPath!.section].value[0]
-        let indexValue = indexPath!.row + PlaceInfoViewController.counter
-        let lastSlot = Array(items)[indexPath!.section].value[indexValue]
+        let firstSlot = items[indexPath.section].slots[0]
+        let indexValue = indexPath.row + PlaceInfoViewController.slotsCounter
+        let lastSlot = items[indexPath.section].slots[indexValue]
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         let calendar = Calendar.current
         let startDateFirstSlot = dateFormatter.date(from: firstSlot.from)
-        PlaceInfoViewController.counter += 1
+        PlaceInfoViewController.slotsCounter += 1
         let startDateNewSlot = calendar.date(byAdding: .hour, value: 1, to: dateFormatter.date(from: lastSlot.to)!)
         if startDateFirstSlot == startDateNewSlot {
             return
@@ -342,36 +363,34 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         slot.occupiedSlots = lastSlot.occupiedSlots
         slot.maxSlots = lastSlot.maxSlots
         slot.friends = lastSlot.friends
-        var array = items[section!]
-        array?.append(slot)
-        items[section!] = array
+        items[indexPath.section].slots.append(slot)
         tableView.beginUpdates()
-        tableView.insertRows(at: [IndexPath(row: items[section!]!.count - 1, section: indexPath!.section)], with: .fade)
+        tableView.insertRows(at: [IndexPath(row: items[indexPath.section].slots.count - 1, section: indexPath.section)], with: .fade)
         tableView.endUpdates()
         self.tempSlots.append(slot)
     }
     
-    func removeRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?) {
-        var array = items[section!]
-        if array?.popLast() == nil {
+    /// Removes row from when dragging from bottom to top, triggered from UILongPressRecognizer()
+    /// - Parameter indexPath: The indexPath of the selected row
+    func removeRow(indexPath: IndexPath) {
+        if items[indexPath.section].slots.popLast() == nil {
             return
         }
-        items[section!] = array
         tableView.beginUpdates()
-        tableView.deleteRows(at: [IndexPath(row: items[section!]!.count - 1, section: indexPath!.section)], with: .fade)
+        tableView.deleteRows(at: [IndexPath(row: items[indexPath.section].slots.count - 1, section: indexPath.section)], with: .fade)
         tableView.endUpdates()
     }
     
-    func addingEnded(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?) {
+    func addingSlotsEnded(indexPath: IndexPath) {
         let alertController = UIAlertController(title: "Adding slots", message: "Are you sure you want to add \(tempSlots.count) \(tempSlots.count == 1 ? "slot" : "slots")?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self]_ in
-            addSlots(tempSlots, section!.sectionTitle)
+            addSlotsServer(tempSlots, items[indexPath.section].sectionTitle)
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .default, handler: { [self]_ in
             var ipArray = [IndexPath]()
-            for i in (indexPath!.row + 1...items[section!]!.count - 1).reversed() {
-                items[section!]!.remove(at: i)
-                ipArray.append(IndexPath(row: i, section: indexPath!.section))
+            for i in (indexPath.row + 1...items[indexPath.section].slots.count - 1).reversed() {
+                items[indexPath.section].slots.remove(at: i)
+                ipArray.append(IndexPath(row: i, section: indexPath.section))
             }
             tableView.beginUpdates()
             tableView.deleteRows(at: ipArray, with: .fade)
@@ -381,13 +400,13 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func addSlots(_ slots: [Slots.Slot]?,_ date: String) {
-        for i in 0...slots!.count - 1 {
-            self.addSlot(slots![i], date)
+    func addSlotsServer(_ slots: [Slots.Slot],_ date: String) {
+        for i in 0...slots.count - 1 {
+            self.addSlotServer(slots[i], date)
         }
     }
     
-    func addSlot(_ slot: Slots.Slot?,_ date: String) {
+    func addSlotServer(_ slot: Slots.Slot?,_ date: String) {
         var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
         if let slot = slot {
@@ -398,7 +417,6 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         let url = URLComponents(string: BASE_URL + "add-slot/\(place?.id ?? "placeId")")!
         var request = URLRequest(url: url.url!)
         request.httpMethod = "POST"
-//        let string1 = String(data: body2!, encoding: String.Encoding.utf8) ?? "Data could not be printed"
         request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
         request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
         if let token = PlacesViewController.getJwtToken() {
@@ -424,9 +442,84 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         
         dataTask?.resume()
     }
+    
+    func deleteSlotServer(_ slot: Slots.Slot?) {
+        let userId = UserDefaults.standard.string(forKey: "userId")
+        let url = URLComponents(string: BASE_URL + "delete-slot/\(userId ?? "userId")/\(slot?.id ?? "slotId")")!
+        var request = URLRequest(url: url.url!)
+        request.httpMethod = "GET"
+        request.setValue("application/json; charset=utf-8", forHTTPHeaderField: "Content-Type")
+        if let token = PlacesViewController.getJwtToken() {
+            let headerValue = "Bearer \(token)"
+            request.setValue(headerValue, forHTTPHeaderField: "Authorization")
+        }
+        self.showLoadingIndicator()
+        dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+            DispatchQueue.main.async {
+                self.hideLoadingIndicator()
+            }
+            if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
+                let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                if let responseJSON = responseJSON as? [String: Any] {
+                    if let responseMessage = responseJSON["message"] {
+                        print(responseMessage)
+                    }
+                }
+            }
+        })
+        
+        dataTask?.resume()
+    }
+    
+    func addHeaderRow(section: Int) {
+        if PlaceInfoViewController.headersCounter == -1 {
+            PlaceInfoViewController.headersCounter = 0
+        }
+        
+        let firstHeader = items[0]
+        let indexValue = section + PlaceInfoViewController.headersCounter
+        let lastHeader = items[indexValue]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yyyy"
+        let calendar = Calendar.current
+        let startDateFirstHeader = dateFormatter.date(from: firstHeader.sectionTitle)
+        PlaceInfoViewController.headersCounter += 1
+        let startDateNewHeader = calendar.date(byAdding: .day, value: 1, to: dateFormatter.date(from: lastHeader.sectionTitle)!)
+        if startDateFirstHeader == startDateNewHeader {
+            return
+        }
+        let selectedSection = ItemHeader(sectionTitle: dateFormatter.string(from: startDateNewHeader!), isCollapsed: true)
+        selectedSection.slots = items[section].slots
+        items.append(selectedSection)
+        tableView.beginUpdates()
+        self.tableView.insertSections(IndexSet(integer: items.count - 1), with: .fade)
+        tableView.endUpdates()
+        self.tempHeaders.append(selectedSection)
+    }
+    
+    func addingHeadersEnded(section: Int) {
+        let alertController = UIAlertController(title: "Adding days", message: "Are you sure you want to add \(tempHeaders.count) \(tempHeaders.count == 1 ? "day" : "days")?", preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self]_ in
+            for header in tempHeaders {
+                addSlotsServer(header.slots, header.sectionTitle)
+            }
+        }))
+        alertController.addAction(UIAlertAction(title: "No", style: .default, handler: { [self]_ in
+            var ipArray = IndexSet()
+            for i in (section + 1...items.count - 1).reversed() {
+                items.remove(at: i)
+                ipArray.insert(i)
+            }
+            tableView.beginUpdates()
+            tableView.deleteSections(ipArray, with: .fade)
+            tableView.endUpdates()
+            alertController.dismiss(animated: true, completion: nil)
+        }))
+        self.present(alertController, animated: true, completion: nil)
+    }
 }
 
-class ProfileViewModelAttributeItem: Equatable, Hashable {
+class ItemHeader: Equatable, Hashable {
     
     var sectionTitle: String = ""
     
@@ -440,6 +533,8 @@ class ProfileViewModelAttributeItem: Equatable, Hashable {
         return 1
     }
     
+    var slots = [Slots.Slot]()
+    
     init(sectionTitle: String, isCollapsed: Bool) {
         self.sectionTitle = sectionTitle
         self.isCollapsed = isCollapsed
@@ -449,7 +544,7 @@ class ProfileViewModelAttributeItem: Equatable, Hashable {
         return sectionTitle.hashValue
     }
     
-    static func == (lhs: ProfileViewModelAttributeItem, rhs: ProfileViewModelAttributeItem) -> Bool {
+    static func == (lhs: ItemHeader, rhs: ItemHeader) -> Bool {
         return lhs.sectionTitle == rhs.sectionTitle && lhs.isCollapsed == rhs.isCollapsed
     }
 }
@@ -470,3 +565,4 @@ class ProfileViewModelAttributeItem: Equatable, Hashable {
 //        return true
 //    }
 //}
+

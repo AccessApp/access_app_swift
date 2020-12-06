@@ -10,9 +10,9 @@ import UIKit
 import resources
 
 protocol PlanVisitDelegate: class {
-    func addRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
-    func removeRow(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
-    func addingEnded(indexPath: IndexPath?, section: ProfileViewModelAttributeItem?)
+    func addRow(indexPath: IndexPath)
+    func removeRow(indexPath: IndexPath)
+    func addingSlotsEnded(indexPath: IndexPath)
 }
 
 class PlanVisitCell: UITableViewCell {
@@ -47,8 +47,7 @@ class PlanVisitCell: UITableViewCell {
     
     weak var delegate: PlanVisitDelegate?
     
-    var indexPath: IndexPath?
-    var section: ProfileViewModelAttributeItem?
+    var indexPath: IndexPath!
     
     var slot: Slots.Slot? {
         didSet {
@@ -107,17 +106,17 @@ class PlanVisitCell: UITableViewCell {
                 
                 if newCenter - initialCenter! >= 48 {
                     initialCenter! += 48
-                    delegate?.addRow(indexPath: indexPath, section: section)
+                    delegate?.addRow(indexPath: indexPath)
                 } else if newCenter - initialCenter! <= -48 {
                     initialCenter! -= 48
-                    delegate?.removeRow(indexPath: indexPath, section: section)
+                    delegate?.removeRow(indexPath: indexPath)
                 }
                 print(initialCenter)
                 print(newCenter)
             }
             else if gesture.state == .ended {
-                PlaceInfoViewController.counter = -1
-                delegate?.addingEnded(indexPath: indexPath, section: section)
+                PlaceInfoViewController.slotsCounter = -1
+                delegate?.addingSlotsEnded(indexPath: indexPath)
             }
         }
     }
@@ -130,3 +129,4 @@ class PlanVisitCell: UITableViewCell {
         return String(describing: self)
     }
 }
+

@@ -1,5 +1,5 @@
 //
-//  PlanVisitHeaderCell.swift
+//  PlanVisitHeaderView.swift
 //  places
 //
 //  Created by Deyan Marinov on 15.07.20.
@@ -11,12 +11,13 @@ import resources
 
 protocol HeaderViewDelegate: class {
     func toggleSection(header: PlanVisitHeaderView, section: Int)
-    func addHeaderRow(indexPath: IndexPath?, section: Int)
+    func addHeaderRow(section: Int)
+    func addingHeadersEnded(section: Int)
 }
 
 class PlanVisitHeaderView: UITableViewHeaderFooterView {
 
-    var item: ProfileViewModelAttributeItem? {
+    var item: ItemHeader? {
         didSet {
             guard let item = item else {
                 return
@@ -43,8 +44,6 @@ class PlanVisitHeaderView: UITableViewHeaderFooterView {
     @IBOutlet var dateLabel: UILabel!
     
     var section: Int = 0
-    
-    var indexPath: IndexPath?
     
     var initialCenter: CGFloat?
     
@@ -86,14 +85,16 @@ class PlanVisitHeaderView: UITableViewHeaderFooterView {
             
             if newCenter - initialCenter! >= 55 {
                 initialCenter! += 55
-                delegate?.addHeaderRow(indexPath: indexPath, section: section)
+                delegate?.addHeaderRow(section: section)
             } else if newCenter - initialCenter! <= -55 {
                 initialCenter! -= 55
 //                delegate?.addHeaderRow(indexPath: indexPath, section: section)
             }
         }
         else if gesture.state == .ended {
-            print("Ended")
+            PlaceInfoViewController.headersCounter = -1
+            delegate?.addingHeadersEnded(section: section)
         }
     }
 }
+
