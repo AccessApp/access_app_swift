@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2019 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
+#import <Foundation/Foundation.h>
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+@class FIRDiagnosticsData;
+@class FIROptions;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+/** Connects FIRCore with the CoreDiagnostics library. */
+@interface FIRCoreDiagnosticsConnector : NSObject
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
-
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/** Logs FirebaseCore  related data.
+ *
+ * @param options The options object containing data to log.
+ */
++ (void)logCoreTelemetryWithOptions:(FIROptions *)options;
 
 @end
 

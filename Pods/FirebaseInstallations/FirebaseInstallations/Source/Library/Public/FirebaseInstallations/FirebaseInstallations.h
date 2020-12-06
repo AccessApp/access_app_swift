@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2019 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,6 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
-
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
-
-NS_ASSUME_NONNULL_BEGIN
-
-@interface GDTCOREvent ()
-
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
-
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
-
-@end
-
-NS_ASSUME_NONNULL_END
+#import "FIRInstallations.h"
+#import "FIRInstallationsAuthTokenResult.h"
+#import "FIRInstallationsErrors.h"

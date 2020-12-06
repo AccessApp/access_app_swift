@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2019 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
-
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+/** The class represents a result of the installation auth token request. */
+NS_SWIFT_NAME(InstallationsAuthTokenResult)
+@interface FIRInstallationsAuthTokenResult : NSObject
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
+/** The installation auth token string. */
+@property(nonatomic, readonly) NSString *authToken;
 
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/** The installation auth token expiration date. */
+@property(nonatomic, readonly) NSDate *expirationDate;
 
 @end
 

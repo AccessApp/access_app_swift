@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
-
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+/** The class represents HTTP response received from `NSURLSession`. */
+@interface GULURLSessionDataResponse : NSObject
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
+@property(nonatomic, readonly) NSHTTPURLResponse *HTTPResponse;
+@property(nonatomic, nullable, readonly) NSData *HTTPBody;
 
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+- (instancetype)initWithResponse:(NSHTTPURLResponse *)response HTTPBody:(nullable NSData *)body;
 
 @end
 

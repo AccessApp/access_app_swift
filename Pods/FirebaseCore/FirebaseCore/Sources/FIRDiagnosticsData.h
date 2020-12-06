@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2019 Google
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
+#import <Foundation/Foundation.h>
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+#import "Interop/CoreDiagnostics/Public/FIRCoreDiagnosticsData.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+/** Implements the FIRCoreDiagnosticsData protocol to log diagnostics data. */
+@interface FIRDiagnosticsData : NSObject <FIRCoreDiagnosticsData>
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
-
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/** Inserts values into the diagnosticObjects dictionary if the value isn't nil.
+ *
+ * @param value The value to insert if it's not nil.
+ * @param key The key to associate it with.
+ */
+- (void)insertValue:(nullable id)value forKey:(NSString *)key;
 
 @end
 

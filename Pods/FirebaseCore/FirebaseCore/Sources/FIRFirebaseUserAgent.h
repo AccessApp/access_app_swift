@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Google
+ * Copyright 2020 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
-
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+#import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+@interface FIRFirebaseUserAgent : NSObject
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
+/** Returns the firebase user agent which consists of environment part and the components added via
+ * `setValue:forComponent` method. */
+- (NSString *)firebaseUserAgent;
 
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/** Sets value associated with the specified component. If value is `nil` then the component is
+ * removed. */
+- (void)setValue:(nullable NSString *)value forComponent:(NSString *)componentName;
+
+/** Resets manually added components. */
+- (void)reset;
 
 @end
 

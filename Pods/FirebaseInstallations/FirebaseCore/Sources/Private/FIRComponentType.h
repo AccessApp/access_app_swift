@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCOREvent.h"
+#import <Foundation/Foundation.h>
 
-#import "GoogleDataTransport/GDTCORLibrary/Public/GoogleDataTransport/GDTCORClock.h"
+@class FIRComponentContainer;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface GDTCOREvent ()
+/// Do not use directly. A placeholder type in order to provide a macro that will warn users of
+/// mis-matched protocols.
+NS_SWIFT_NAME(ComponentType)
+@interface FIRComponentType<__covariant T> : NSObject
 
-/** The unique ID of the event. This property is for testing only. */
-@property(nonatomic, readwrite) NSString *eventID;
-
-/** Generates a unique event ID. */
-+ (NSString *)nextEventID;
+/// Do not use directly. A factory method to retrieve an instance that provides a specific
+/// functionality.
++ (T)instanceForProtocol:(Protocol *)protocol inContainer:(FIRComponentContainer *)container;
 
 @end
 
