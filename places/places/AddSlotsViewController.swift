@@ -83,7 +83,7 @@ class AddSlotsViewController: UIViewController {
         currentTypeButton = priorityButton
         setDateString(date: Date())
         setTimeString(time: Date(), textField: startHourTF)
-        setTimeString(time: Date(), textField: endHourTF)
+        setTimeString(time: Calendar.current.date(byAdding: .hour, value: 1, to: Date())!, textField: endHourTF)
         currentDate = dateTF.text
         currentStartTime = startHourTF.text
         currentEndTime = endHourTF.text
@@ -110,10 +110,10 @@ class AddSlotsViewController: UIViewController {
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        self.showLoadingIndicator()
+        Spinner.start()
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             DispatchQueue.main.async {
-                self.hideLoadingIndicator()
+                Spinner.stop()
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
@@ -173,6 +173,7 @@ class AddSlotsViewController: UIViewController {
         let locale: Locale = Locale(identifier: "NL")
         endTimePicker.locale = locale
         endTimePicker.addTarget(self, action: #selector(self.endPickerChanged), for: .allEvents)
+        endTimePicker.minimumDate = Calendar.current.date(byAdding: .hour, value: 1, to: startTimePicker.date)
         endHourTF.inputView = endTimePicker
         let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.endPickerDone))
         let cancelButton = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(self.endTimePickerCancel))
@@ -201,7 +202,7 @@ class AddSlotsViewController: UIViewController {
     }
 
     @objc func startPickerChanged() {
-        endTimePicker.minimumDate = Calendar.current.date(byAdding: .minute, value: 1, to: startTimePicker.date)
+        endTimePicker.minimumDate = Calendar.current.date(byAdding: .hour, value: 1, to: startTimePicker.date)
         self.setTimeString(time: startTimePicker.date, textField: startHourTF)
     }
     

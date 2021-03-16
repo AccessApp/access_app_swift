@@ -150,15 +150,16 @@ public struct Slots: Codable, Equatable {
         public var maxSlots: Int
         public var isPlanned: Bool
         public var friends: Int
+        public lazy var isNewlyAdded = false
         
         public init() {
-            id = "";
-            type = "";
-            from = "";
-            to = "";
-            occupiedSlots = 0;
-            maxSlots = 0;
-            isPlanned = false;
+            id = ""
+            type = ""
+            from = ""
+            to = ""
+            occupiedSlots = 0
+            maxSlots = 0
+            isPlanned = false
             friends = 0
         }
     }
@@ -173,12 +174,20 @@ public struct Slots: Codable, Equatable {
             return nil
         }
     }
+    
+    private enum SlotCodingKeys: String, CodingKey {
+        case id
+        case type
+        case maxSlots
+    }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CustomCodingKeys.self)
         
         self.innerArray = [String: [Slot]]()
         for key in container.allKeys {
             let value = try container.decode([Slot].self, forKey: CustomCodingKeys(stringValue: key.stringValue)!)
+            
             self.innerArray[key.stringValue] = value
         }
     }

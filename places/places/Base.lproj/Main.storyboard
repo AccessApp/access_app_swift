@@ -496,19 +496,8 @@
                                     <constraint firstAttribute="trailing" secondItem="1ve-gK-U8n" secondAttribute="trailing" constant="8" id="Wm2-u4-oAd"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mfJ-Om-fw4">
-                                <rect key="frame" x="146.5" y="191" width="82" height="18"/>
-                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="15"/>
-                                <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                <state key="normal" title="Add Slots" image="plus">
-                                    <color key="titleColor" name="primary"/>
-                                </state>
-                                <connections>
-                                    <action selector="addSlotsClicked:" destination="wTm-gQ-gIc" eventType="touchUpInside" id="7VK-Jj-Sj5"/>
-                                </connections>
-                            </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="DoD-So-gVd">
-                                <rect key="frame" x="16" y="209" width="343" height="365"/>
+                                <rect key="frame" x="16" y="191" width="343" height="313"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
@@ -670,23 +659,42 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aeV-Ef-e9P" customClass="CustomButton" customModule="resources">
+                                <rect key="frame" x="37.5" y="514" width="300" height="60"/>
+                                <color key="backgroundColor" name="primary"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="YvI-AB-GB7"/>
+                                    <constraint firstAttribute="width" constant="300" id="dme-j7-cgq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Rubik-Medium" family="Rubik" pointSize="14"/>
+                                <state key="normal" title="Add Slots"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="30"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addSlotsClicked:" destination="wTm-gQ-gIc" eventType="touchUpInside" id="I3C-vE-Wh6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="yle-xX-psL"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="XtK-3b-kw4" firstAttribute="leading" secondItem="yle-xX-psL" secondAttribute="leading" constant="16" id="7JD-aO-bV6"/>
+                            <constraint firstItem="DoD-So-gVd" firstAttribute="top" secondItem="Klu-pi-6cT" secondAttribute="bottom" constant="10" id="7md-YT-lOr"/>
                             <constraint firstItem="Klu-pi-6cT" firstAttribute="leading" secondItem="LxV-VY-ocP" secondAttribute="leadingMargin" id="8Hf-SA-Z5a"/>
-                            <constraint firstItem="yle-xX-psL" firstAttribute="bottom" secondItem="DoD-So-gVd" secondAttribute="bottom" id="Afs-uE-kJs"/>
-                            <constraint firstItem="mfJ-Om-fw4" firstAttribute="top" secondItem="Klu-pi-6cT" secondAttribute="bottom" constant="10" id="IdU-ti-3Na"/>
-                            <constraint firstItem="mfJ-Om-fw4" firstAttribute="centerX" secondItem="yle-xX-psL" secondAttribute="centerX" id="KeQ-VD-xqg"/>
                             <constraint firstItem="Klu-pi-6cT" firstAttribute="top" secondItem="XtK-3b-kw4" secondAttribute="bottom" constant="7.3333333333333357" id="PeM-XE-82t"/>
                             <constraint firstItem="yle-xX-psL" firstAttribute="trailing" secondItem="Klu-pi-6cT" secondAttribute="trailing" constant="16" id="SlF-vc-Tfo"/>
                             <constraint firstItem="DoD-So-gVd" firstAttribute="leading" secondItem="yle-xX-psL" secondAttribute="leading" constant="16" id="X6l-UJ-bcU"/>
+                            <constraint firstItem="aeV-Ef-e9P" firstAttribute="centerX" secondItem="LxV-VY-ocP" secondAttribute="centerX" id="a78-n4-Eff"/>
                             <constraint firstItem="Klu-pi-6cT" firstAttribute="leading" secondItem="XtK-3b-kw4" secondAttribute="leading" id="hW2-6X-a6b"/>
                             <constraint firstItem="yle-xX-psL" firstAttribute="trailing" secondItem="DoD-So-gVd" secondAttribute="trailing" constant="16" id="kE6-4E-s2E"/>
+                            <constraint firstItem="yle-xX-psL" firstAttribute="bottom" secondItem="aeV-Ef-e9P" secondAttribute="bottom" id="lXw-Iv-cga"/>
                             <constraint firstItem="XtK-3b-kw4" firstAttribute="top" secondItem="yle-xX-psL" secondAttribute="top" id="qab-EN-sLH"/>
+                            <constraint firstItem="aeV-Ef-e9P" firstAttribute="top" secondItem="DoD-So-gVd" secondAttribute="bottom" constant="10" id="t75-ES-Yjq"/>
                             <constraint firstItem="Klu-pi-6cT" firstAttribute="trailing" secondItem="LxV-VY-ocP" secondAttribute="trailingMargin" id="wiU-4W-Ju0"/>
-                            <constraint firstItem="DoD-So-gVd" firstAttribute="top" secondItem="mfJ-Om-fw4" secondAttribute="bottom" id="yHD-AO-hra"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="33Y-H6-wzK">
@@ -708,7 +716,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bKu-Na-jdk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3262" y="-606"/>
+            <point key="canvasLocation" x="3261.5999999999999" y="-606.74662668665667"/>
         </scene>
         <!--Popup View Controller-->
         <scene sceneID="9Dg-XZ-dLO">
@@ -1837,17 +1845,16 @@ Information</string>
         <image name="museum" width="20" height="20"/>
         <image name="pen" width="17.5" height="17.5"/>
         <image name="person" catalog="system" width="128" height="117"/>
-        <image name="plus" width="16" height="16"/>
         <image name="qrcode-scan" width="25" height="25"/>
         <image name="trees" width="17.5" height="18"/>
         <namedColor name="blue">
-            <color red="0.0" green="0.42399999499320984" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.42352941176470588" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="fade-white">
             <color red="0.96862745098039216" green="0.96862745098039216" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="green">
-            <color red="0.0" green="0.80784313725490198" blue="0.61960784313725492" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.0" green="0.80800002813339233" blue="0.62000000476837158" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="grey">
             <color red="0.58431372549019611" green="0.59215686274509804" blue="0.67450980392156867" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1862,7 +1869,7 @@ Information</string>
             <color red="1" green="0.071999996900558472" blue="0.071999996900558472" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="text-title">
-            <color red="0.27450980392156865" green="0.28627450980392155" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.27843137254901962" green="0.29019607843137257" blue="0.40392156862745099" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

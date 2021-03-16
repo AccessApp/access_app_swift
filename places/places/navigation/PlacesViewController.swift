@@ -145,7 +145,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func getAllPlaces() {
-        self.showLoadingIndicator()
+        Spinner.start()
         var body = [String : Any]()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "get-places/\(userId ?? "userId")")!
@@ -168,7 +168,7 @@ class PlacesViewController: UIViewController, UITableViewDelegate, UITableViewDa
         }
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             DispatchQueue.main.async {
-                self.hideLoadingIndicator()
+                Spinner.stop()
             }
             let decoder = JSONDecoder()
             if let data = data {

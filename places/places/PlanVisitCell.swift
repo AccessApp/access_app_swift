@@ -47,7 +47,7 @@ class PlanVisitCell: UITableViewCell {
     
     weak var delegate: PlanVisitDelegate?
     
-    var indexPath: IndexPath!
+    var indexPath: IndexPath?
     
     var slot: Slots.Slot? {
         didSet {
@@ -80,21 +80,29 @@ class PlanVisitCell: UITableViewCell {
                 }
                 fromTo.text = "\(slot.from)-\(slot.to)"
                 capMax.text = "\(slot.occupiedSlots)/\(slot.maxSlots)"
+
+                self.updateBackgroundView()
             }
         }
     }
     
     override func awakeFromNib() {
+        super.awakeFromNib()
+        self.updateBackgroundView()
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(addMoreCells(gesture:))))
     }
     
     @objc private func addMoreCells(gesture: UILongPressGestureRecognizer) {
-        if (self.indexPath != nil) {
+        if let indexPath = self.indexPath {
             if gesture.state == .began {
                 guard let view = gesture.view else {
                     return
                 }
                 initialCenter = view.center.y
+                let overlay = UIView(frame: self.contentViewCell.bounds)
+                overlay.backgroundColor = UIColor(named: "fade-white")?.withAlphaComponent(0.5)
+                overlay.tag = 200
+                self.contentViewCell.addSubview(overlay)
             }
             else if gesture.state == .changed {
                 
@@ -115,6 +123,9 @@ class PlanVisitCell: UITableViewCell {
                 print(newCenter)
             }
             else if gesture.state == .ended {
+                if let view = self.contentViewCell.viewWithTag(200) {
+                    view.removeFromSuperview()
+                }
                 PlaceInfoViewController.slotsCounter = -1
                 delegate?.addingSlotsEnded(indexPath: indexPath)
             }
@@ -127,6 +138,19 @@ class PlanVisitCell: UITableViewCell {
     
     static var identifier: String {
         return String(describing: self)
+    }
+    
+    func updateBackgroundView() {
+//        if  {
+//            let overlay = UIView(frame: self.contentView.bounds)
+//            overlay.backgroundColor = UIColor(named: "fade-white")?.withAlphaComponent(0.5)
+//            overlay.tag = 200
+//            self.contentView.addSubview(overlay)
+//        } else {
+//            if let view = self.contentView.viewWithTag(200) {
+//                view.removeFromSuperview()
+//            }
+//        }
     }
 }
 

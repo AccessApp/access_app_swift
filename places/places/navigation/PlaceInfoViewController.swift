@@ -140,11 +140,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             titleLabel.text = place.name
             desc.text = place.description
             website.text = place.www
-            if place.www.isEmpty {
-                globe.isHidden = true
-            } else {
-                globe.isHidden = false
-            }
+            globe.isHidden = place.www.isEmpty
             placeImage.downloaded(from: BASE_URL + "get-image/\(place.id)")
         }
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
@@ -194,6 +190,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             let item = items[section]
             
             headerView.item = item
+            headerView.isLastSection = (section == tableView.numberOfSections - 1)
             headerView.section = section
             headerView.delegate = self
             let backgroundView = UIView(frame: headerView.bounds)
@@ -221,7 +218,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
+    
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             self.deleteSlotServer(items[indexPath.section].slots[indexPath.row])
@@ -229,11 +226,18 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
+            // check if the section is empty (the day don't have slots), remove it from table, in the server is auto removed
+            if items[indexPath.section].slots.isEmpty {
+                items.remove(at: indexPath.section)
+                tableView.beginUpdates()
+                tableView.deleteSections(IndexSet(integer: indexPath.section), with: .fade)
+                tableView.endUpdates()
+            }
         }
     }
     
     func getSlots() {
-        self.showLoadingIndicator()
+        Spinner.start()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "get-place-slots/\(userId ?? "userId")/\(self.place?.id ?? "placeId")")!
         var request = URLRequest(url: url.url!)
@@ -275,7 +279,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
                     print("error: ", error)
                 }
                 DispatchQueue.main.async {
-                    self.hideLoadingIndicator()
+                    Spinner.stop()
                     
                     //                    self.tableView.beginUpdates()
                     //                    self.tableView.reloadSections([section], with: .fade)
@@ -292,21 +296,21 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func sortList(_ dateKeys: [String], _ serverItems: [ItemHeader]) -> [ItemHeader] {
         var arrayOfDates: [Date] = []
-
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yyyy"
-
+        
         for dateString in dateKeys {
             let date = dateFormatter.date(from: dateString)
             if let date = date{
                 arrayOfDates.append(date)
             }
         }
-
+        
         arrayOfDates.sort(by: {$0.timeIntervalSince1970 < $1.timeIntervalSince1970})
-
+        
         var result: [String] = []
-
+        
         for date in arrayOfDates{
             result.append(dateFormatter.string(from: date))
         }
@@ -363,6 +367,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         slot.occupiedSlots = lastSlot.occupiedSlots
         slot.maxSlots = lastSlot.maxSlots
         slot.friends = lastSlot.friends
+        slot.isNewlyAdded = true
         items[indexPath.section].slots.append(slot)
         tableView.beginUpdates()
         tableView.insertRows(at: [IndexPath(row: items[indexPath.section].slots.count - 1, section: indexPath.section)], with: .fade)
@@ -382,6 +387,9 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func addingSlotsEnded(indexPath: IndexPath) {
+        if tempSlots.count <= 0 {
+            return
+        }
         let alertController = UIAlertController(title: "Adding slots", message: "Are you sure you want to add \(tempSlots.count) \(tempSlots.count == 1 ? "slot" : "slots")?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self]_ in
             addSlotsServer(tempSlots, items[indexPath.section].sectionTitle)
@@ -396,6 +404,8 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             tableView.deleteRows(at: ipArray, with: .fade)
             tableView.endUpdates()
             alertController.dismiss(animated: true, completion: nil)
+            tempSlots.removeAll()
+            PlaceInfoViewController.slotsCounter = 0
         }))
         self.present(alertController, animated: true, completion: nil)
     }
@@ -423,10 +433,10 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        self.showLoadingIndicator()
+        Spinner.start()
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             DispatchQueue.main.async {
-                self.hideLoadingIndicator()
+                Spinner.stop()
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
@@ -453,10 +463,10 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             let headerValue = "Bearer \(token)"
             request.setValue(headerValue, forHTTPHeaderField: "Authorization")
         }
-        self.showLoadingIndicator()
+        Spinner.start()
         dataTask = defaultSession.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
             DispatchQueue.main.async {
-                self.hideLoadingIndicator()
+                Spinner.stop()
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
@@ -490,6 +500,7 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let selectedSection = ItemHeader(sectionTitle: dateFormatter.string(from: startDateNewHeader!), isCollapsed: true)
         selectedSection.slots = items[section].slots
+        selectedSection.isNewlyAdded = true
         items.append(selectedSection)
         tableView.beginUpdates()
         self.tableView.insertSections(IndexSet(integer: items.count - 1), with: .fade)
@@ -498,11 +509,17 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func addingHeadersEnded(section: Int) {
+        if tempHeaders.count <= 0 {
+            return
+        }
         let alertController = UIAlertController(title: "Adding days", message: "Are you sure you want to add \(tempHeaders.count) \(tempHeaders.count == 1 ? "day" : "days")?", preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "Yes", style: .destructive, handler: { [self]_ in
             for header in tempHeaders {
+                header.isNewlyAdded = false
                 addSlotsServer(header.slots, header.sectionTitle)
             }
+            // update section from the selected one till the end of items list
+            self.tableView.reloadSections(IndexSet(section + 1...items.count - 1), with: .none)
         }))
         alertController.addAction(UIAlertAction(title: "No", style: .default, handler: { [self]_ in
             var ipArray = IndexSet()
@@ -514,6 +531,8 @@ class PlaceInfoViewController: UIViewController, UITableViewDelegate, UITableVie
             tableView.deleteSections(ipArray, with: .fade)
             tableView.endUpdates()
             alertController.dismiss(animated: true, completion: nil)
+            tempHeaders.removeAll()
+            PlaceInfoViewController.headersCounter = 0
         }))
         self.present(alertController, animated: true, completion: nil)
     }
@@ -532,6 +551,8 @@ class ItemHeader: Equatable, Hashable {
     var rowCount: Int {
         return 1
     }
+    
+    var isNewlyAdded = false
     
     var slots = [Slots.Slot]()
     

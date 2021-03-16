@@ -16,13 +16,13 @@ protocol HeaderViewDelegate: class {
 }
 
 class PlanVisitHeaderView: UITableViewHeaderFooterView {
-
+    
     var item: ItemHeader? {
         didSet {
             guard let item = item else {
                 return
             }
-            
+                        
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM.yyyy"
             let date = dateFormatter.date(from: item.sectionTitle)
@@ -37,19 +37,22 @@ class PlanVisitHeaderView: UITableViewHeaderFooterView {
             let calendar = Calendar.current
             let components = calendar.dateComponents([.year, .month, .day, .hour], from: date!)
             dateLabel.text = "\(components.day ?? 0)\(Helpers.daySuffix(from: date!)) \(month)"
+            
+            self.updateBackgroundView()
         }
     }
     
     @IBOutlet var dayLabel: UILabel!
     @IBOutlet var dateLabel: UILabel!
+    @IBOutlet var backgroundHeaderView: UIView!
     
     var section: Int = 0
-    
+    var isLastSection = false
     var initialCenter: CGFloat?
     
     weak var delegate: HeaderViewDelegate?
     
-    static var nib:UINib {
+    static var nib: UINib {
         return UINib(nibName: identifier, bundle: nil)
     }
     
@@ -59,7 +62,7 @@ class PlanVisitHeaderView: UITableViewHeaderFooterView {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        self.updateBackgroundView()
         addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapHeader)))
         addGestureRecognizer(UILongPressGestureRecognizer(target: self, action: #selector(addMoreHeaders(gesture:))))
     }
@@ -69,31 +72,53 @@ class PlanVisitHeaderView: UITableViewHeaderFooterView {
     }
     
     @objc private func addMoreHeaders(gesture: UILongPressGestureRecognizer) {
-        if gesture.state == .began {
-            guard let view = gesture.view else {
-                return
+        if isLastSection {
+            if gesture.state == .began {
+                guard let view = gesture.view else {
+                    return
+                }
+                initialCenter = view.center.y
+                let overlay = UIView(frame: self.backgroundHeaderView.bounds)
+                overlay.backgroundColor = UIColor(named: "fade-white")?.withAlphaComponent(0.5)
+                overlay.tag = 200
+                self.backgroundHeaderView.addSubview(overlay)
             }
-            initialCenter = view.center.y
+            else if gesture.state == .changed {
+                
+                guard let view = gesture.view else {
+                    return
+                }
+                
+                let newCenter = gesture.location(in: view.superview).y
+                
+                if newCenter - initialCenter! >= 55 {
+                    initialCenter! += 55
+                    delegate?.addHeaderRow(section: section)
+                } else if newCenter - initialCenter! <= -55 {
+                    initialCenter! -= 55
+//                    delegate?.addHeaderRow(indexPath: indexPath, section: section)
+                }
+            }
+            else if gesture.state == .ended {
+                if let view = self.backgroundHeaderView.viewWithTag(200) {
+                    view.removeFromSuperview()
+                }
+                PlaceInfoViewController.headersCounter = -1
+                delegate?.addingHeadersEnded(section: section)
+            }
         }
-        else if gesture.state == .changed {
-            
-            guard let view = gesture.view else {
-                return
+    }
+    
+    func updateBackgroundView() {
+        if let item = item, item.isNewlyAdded {
+            let overlay = UIView(frame: self.backgroundHeaderView.bounds)
+            overlay.backgroundColor = UIColor(named: "fade-white")?.withAlphaComponent(0.5)
+            overlay.tag = 200
+            self.backgroundHeaderView.addSubview(overlay)
+        } else {
+            if let view = self.backgroundHeaderView.viewWithTag(200) {
+                view.removeFromSuperview()
             }
-            
-            let newCenter = gesture.location(in: view.superview).y
-            
-            if newCenter - initialCenter! >= 55 {
-                initialCenter! += 55
-                delegate?.addHeaderRow(section: section)
-            } else if newCenter - initialCenter! <= -55 {
-                initialCenter! -= 55
-//                delegate?.addHeaderRow(indexPath: indexPath, section: section)
-            }
-        }
-        else if gesture.state == .ended {
-            PlaceInfoViewController.headersCounter = -1
-            delegate?.addingHeadersEnded(section: section)
         }
     }
 }

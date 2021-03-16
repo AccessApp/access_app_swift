@@ -158,7 +158,7 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
             alert(title: "Website address required", message: "Enter website address of the place")
             return
         }
-        self.showLoadingIndicator()
+        Spinner.start()
         let userId = UserDefaults.standard.string(forKey: "userId")
         let url = URLComponents(string: BASE_URL + "add-place/")!
         var request = URLRequest(url: url.url!)
@@ -175,7 +175,7 @@ class AddPlaceViewController: UIViewController, UITextViewDelegate {
             print("REQUEST BODY: \(String(data: request.httpBody!, encoding: String.Encoding(rawValue: String.Encoding.ascii.rawValue))!)")
             print("REQUEST HEADER: \(String(describing: request.allHTTPHeaderFields!))")
             DispatchQueue.main.async {
-                self.hideLoadingIndicator()
+                Spinner.stop()
             }
             if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode != 204, let data = data {
                 let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
